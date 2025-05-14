@@ -25,3 +25,17 @@ status:
 clean:
 	docker compose stop kong || true
 	docker compose rm -f kong
+	
+.DEFAULT_GOAL := help
+
+help:
+	@echo "Usage: make [target]"
+	@echo ""
+	@echo "Available targets:"
+	@echo "  up        Start all services in detached mode"
+	@echo "  down      Stop and remove all services"
+	@echo "  reset     Stop, remove volume, and restart services"
+	@echo "  logs      Show logs for the 'kong' service"
+	@echo "  health    Check health status of Kong"
+	@echo "  status    Show status of Kong container"
+	@echo "  clean     Stop and remove Kong container"
