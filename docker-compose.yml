@@ -1,0 +1,105 @@
+version: '3.9'
+
+x-kong-config: &kong-env
+  KONG_DATABASE: postgres
+  KONG_PG_HOST: ${KONG_PG_HOST}
+  KONG_PG_USER: ${KONG_PG_USER}
+  KONG_PG_PASSWORD_FILE: /run/secrets/kong_postgres_password
+  KONG_PG_DATABASE: ${KONG_PG_DATABASE}
+  KONG_PROXY_ACCESS_LOG: /dev/stdout
+  KONG_PROXY_ERROR_LOG: /dev/stderr
+  KONG_ADMIN_ACCESS_LOG: /dev/stdout
+  KONG_ADMIN_ERROR_LOG: /dev/stderr
+  KONG_ADMIN_GUI_LISTEN: 0.0.0.0:${KONG_ADMIN_GUI_PORT}
+  KONG_PROXY_LISTEN: 0.0.0.0:${KONG_PROXY_PORT}
+  KONG_ADMIN_LISTEN: 0.0.0.0:${KONG_ADMIN_PORT}
+  KONG_LOG_LEVEL: info
+  # Uncomment for SSL after adding certificates:
+  # KONG_PROXY_LISTEN: 0.0.0.0:${KONG_PROXY_PORT}, 0.0.0.0:${KONG_SSL_PROXY_PORT} ssl
+  # KONG_ADMIN_LISTEN: 0.0.0.0:${KONG_ADMIN_PORT}, 0.0.0.0:${KONG_SSL_ADMIN_PORT} ssl
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${KONG_PG_USER}
+      POSTGRES_DB: ${KONG_PG_DATABASE}
+      POSTGRES_PASSWORD_FILE: /run/secrets/kong_postgres_password
+    secrets:
+      - kong_postgres_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${KONG_PG_USER} -d ${KONG_PG_DATABASE}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      kong-net:
+        aliases:
+          - ${KONG_PG_HOST}
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  kong-migrations:
+    image: ${KONG_DOCKER_TAG}
+    command: kong migrations bootstrap && kong migrations up
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      <<: *kong-env
+    secrets:
+      - kong_postgres_password
+    networks:
+      - kong-net
+    restart: on-failure
+
+  kong:
+    image: ${KONG_DOCKER_TAG}
+    depends_on:
+      db:
+        condition: service_healthy
+      kong-migrations:
+        condition: service_completed_successfully
+    environment:
+      <<: *kong-env
+    ports:
+      - "${KONG_PROXY_PORT}:${KONG_PROXY_PORT}" # Proxy
+      - "${KONG_ADMIN_PORT}:${KONG_ADMIN_PORT}" # Admin API
+      - "${KONG_ADMIN_GUI_PORT}:${KONG_ADMIN_GUI_PORT}" # Kong Manager
+      # Uncomment for SSL after adding certificates:
+      # - "${KONG_SSL_PROXY_PORT}:${KONG_SSL_PROXY_PORT}" # SSL Proxy
+      # - "${KONG_SSL_ADMIN_PORT}:${KONG_SSL_ADMIN_PORT}" # SSL Admin API
+    secrets:
+      - kong_postgres_password
+    networks:
+      - kong-net
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  # Optional: Uncomment to add quote-service backend
+  # quote-service:
+  #   image: my-quote-service:latest  # Replace with actual image
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - kong-net
+
+volumes:
+  postgres_data:
+
+
+networks:
+  kong-net:
+    driver: bridge
+
+secrets:
+  kong_postgres_password:
+    file: ./POSTGRES_PASSWORD
