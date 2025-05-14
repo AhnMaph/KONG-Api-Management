@@ -1,0 +1,48 @@
+# Docker and Compose
+docker-compose*.yml
+Dockerfile
+.dockerignore
+
+# Secrets
+POSTGRES_PASSWORD
+*.env
+secrets/
+
+# Database files
+postgres_data/
+
+# Kong specific
+.kong-*
+kong.log
+*.pid
+
+# IDE specific
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local development files
+tmp/
+*.tmp
+*.log
+
+# Node.js (if you're using Kong plugins with Node)
+node_modules/
+npm-debug.log*
+
+# Python (if you're using Kong plugins with Python)
+__pycache__/
+*.py[cod]
+*.venv
+venv/
+
+# Terraform (if managing Kong with Terraform)
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Build artifacts
+*.tar.gz
+*.gz
+*.zip
