@@ -109,17 +109,7 @@ services:
   #     - "8080:8080"
   #   networks:
   #     - kong-net
-# POST http://localhost:8001/services
-#  body: JSON {
-# 	"name":"backend-service",
-# 	"url": "http://django-backend:8080"
-# }
-#POST http://localhost:8001/services/backend-service/routes
-# {
-# 	"name": "django-backend-routes",
-# 	"paths": ["/"],
-# 	"strip_path": true
-# }
+
 volumes:
   postgres_data:
 
