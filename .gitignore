@@ -46,3 +46,9 @@ venv/
 *.tar.gz
 *.gz
 *.zip
+
+# services
+*Zone.Identifier
+*.jpg
+frontend 
+# tạm thôi 

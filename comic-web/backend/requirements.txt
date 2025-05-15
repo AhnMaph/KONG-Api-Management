@@ -1,0 +1,15 @@
+Django>=4.0,<5.0
+djangorestframework
+mysqlclient
+gunicorn
+Pillow
+asgiref
+django-cors-headers
+djangorestframework-simplejwt
+PyJWT
+pytz
+sqlparse
+psycopg2-binary
+gTTS
+django-debug-toolbar
+python-dotenv

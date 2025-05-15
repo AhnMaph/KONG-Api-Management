@@ -1,0 +1,234 @@
+[
+    {
+        "title": "The Legendary Hero",
+        "author": "John Doe",
+        "description": "A young man becomes a legendary hero in a world on the brink of destruction. With exceptional combat skills, he faces various trials to save the world.",
+        "cover_image": "Doraemon1.jpg",
+        "genres": ["Action", "Adventure"]
+    },
+    {
+        "title": "Dark Chronicles",
+        "author": "Jane Smith",
+        "description": "In a world descending into darkness, a group of warriors with special powers must protect humanity from supernatural creatures and uncover hidden secrets.",
+        "cover_image": "Doraemon1.jpg",
+        "genres": ["Fantasy", "Mystery"]
+    },
+    {
+        "title": "Lost Kingdom",
+        "author": "Michael Brown",
+        "description": "A girl gets lost in a long-forgotten kingdom and must work with a cursed prince to free the kingdom from dark forces.",
+        "cover_image": "Doraemon1.jpg",
+        "genres": ["Fantasy", "Adventure"]
+    },
+    {
+        "title": "Ninja Rebirth",
+        "author": "Hiroshi Tanaka",
+        "description": "A ninja warrior reincarnated into another world after death decides to protect his new world from dark forces.",
+        "cover_image": "Doraemon1.jpg",
+        "genres": ["Action", "Supernatural"]
+    },
+    {
+        "title": "Sky Pirate",
+        "author": "Sara Lee",
+        "description": "In a world where oceans are replaced by clouds, a pirate crew sails through the skies searching for treasure, while battling deadly enemies.",
+        "cover_image": "Doraemon1.jpg",
+        "genres": ["Action", "Adventure"]
+    },
+    {
+        "title": "Demon Slayer: Rebirth",
+        "author": "Takashi Watanabe",
+        "description": "A new group of demon slayers rises after a long war. They must face a new threat to prevent the world from plunging into darkness.",
+        "cover_image": "Doraemon1.jpg",
+        "genres": ["Action", "Fantasy"]
+    },
+    {
+        "title": "Virtual Reality War",
+        "author": "Yuki Kato",
+        "description": "In a future where virtual reality gaming becomes the battlefield, a group of players must fight to survive in deadly war games.",
+        "cover_image": "Doraemon1.jpg",
+        "genres": ["Sci-Fi", "Action"]
+    },
+    {
+        "title": "Demon Princess",
+        "author": "Rika Yamada",
+        "description": "A princess from a demon kingdom is betrayed and must fight to reclaim her throne from dark forces.",
+        "cover_image": "Doraemon1.jpg",
+        "genres": ["Fantasy", "Action"]
+    },
+    {
+        "title": "Space Odyssey",
+        "author": "Nobuhiro Takeda",
+        "description": "A group of astronauts venture to an unknown planet, facing strange alien lifeforms and discovering ancient technology that could change humanity's future.",
+        "cover_image": "Doraemon1.jpg",
+        "genres": ["Sci-Fi", "Adventure"]
+    },
+    {
+        "title": "Dragonborn",
+        "author": "Kaito Fujiwara",
+        "description": "A young man discovers he's a descendant of an ancient dragon lineage and must protect the world from a great disaster using his newfound powers.",
+        "cover_image": "Doraemon1.jpg",
+        "genres": ["Fantasy", "Adventure"]
+    },
+    {
+      "title": "The Legendary Hero",
+      "author": "John Doe",
+      "description": "A young man becomes a legendary hero in a world on the brink of destruction. With exceptional combat skills, he faces various trials to save the world.",
+      "cover_image": "Doraemon1.jpg",
+      "genres": ["Action", "Adventure"]
+    },
+    {
+      "title": "Dark Chronicles",
+      "author": "Jane Smith",
+      "description": "In a world descending into darkness, a group of warriors with special powers must protect humanity from supernatural creatures and uncover hidden secrets.",
+      "cover_image": "Doraemon1.jpg",
+      "genres": ["Fantasy", "Mystery"]
+    },
+    {
+      "title": "Lost Kingdom",
+      "author": "Michael Brown",
+      "description": "A girl gets lost in a long-forgotten kingdom and must work with a cursed prince to free the kingdom from dark forces.",
+      "cover_image": "manga_covers/lost_kingdom.jpg",
+      "genres": ["Fantasy", "Adventure"]
+    },
+    {
+      "title": "Ninja Rebirth",
+      "author": "Hiroshi Tanaka",
+      "description": "A ninja warrior reincarnated into another world after death decides to protect his new world from dark forces.",
+      "cover_image": "manga_covers/ninja_rebirth.jpg",
+      "genres": ["Action", "Supernatural"]
+    },
+    {
+      "title": "Sky Pirate",
+      "author": "Sara Lee",
+      "description": "In a world where oceans are replaced by clouds, a pirate crew sails through the skies searching for treasure, while battling deadly enemies.",
+      "cover_image": "manga_covers/sky_pirate.jpg",
+      "genres": ["Action", "Adventure"]
+    },
+    {
+      "title": "Demon Slayer: Rebirth",
+      "author": "Takashi Watanabe",
+      "description": "A new group of demon slayers rises after a long war. They must face a new threat to prevent the world from plunging into darkness.",
+      "cover_image": "manga_covers/demon_slayer_rebirth.jpg",
+      "genres": ["Action", "Fantasy"]
+    },
+    {
+      "title": "Virtual Reality War",
+      "author": "Yuki Kato",
+      "description": "In a future where virtual reality gaming becomes the battlefield, a group of players must fight to survive in deadly war games.",
+      "cover_image": "manga_covers/virtual_reality_war.jpg",
+      "genres": ["Sci-Fi", "Action"]
+    },
+    {
+      "title": "Demon Princess",
+      "author": "Rika Yamada",
+      "description": "A princess from a demon kingdom is betrayed and must fight to reclaim her throne from dark forces.",
+      "cover_image": "manga_covers/demon_princess.jpg",
+      "genres": ["Fantasy", "Action"]
+    },
+    {
+      "title": "Space Odyssey",
+      "author": "Nobuhiro Takeda",
+      "description": "A group of astronauts venture to an unknown planet, facing strange alien lifeforms and discovering ancient technology that could change humanity's future.",
+      "cover_image": "manga_covers/space_odyssey.jpg",
+      "genres": ["Sci-Fi", "Adventure"]
+    },
+    {
+      "title": "Dragonborn",
+      "author": "Kaito Fujiwara",
+      "description": "A young man discovers he's a descendant of an ancient dragon lineage and must protect the world from a great disaster using his newfound powers.",
+      "cover_image": "manga_covers/dragonborn.jpg",
+      "genres": ["Fantasy", "Adventure"]
+    },
+    {
+      "title": "The Shattered Realm",
+      "author": "Emiko Sato",
+      "description": "A kingdom has fallen into chaos. A lone warrior with a mysterious past must uncover the secrets of the realm and restore balance.",
+      "cover_image": "manga_covers/shattered_realm.jpg",
+      "genres": ["Fantasy", "Adventure"]
+    },
+    {
+      "title": "Blood Moon Rising",
+      "author": "Akira Yoshida",
+      "description": "When the blood moon rises, a group of cursed individuals must break free from their dark fate and face the terrifying forces that threaten their world.",
+      "cover_image": "manga_covers/blood_moon_rising.jpg",
+      "genres": ["Horror", "Supernatural"]
+    },
+    {
+      "title": "The Fallen Angel",
+      "author": "Yumi Takahashi",
+      "description": "A fallen angel seeks redemption while battling dark forces that haunt her and threatening to bring about the end of the world.",
+      "cover_image": "manga_covers/fallen_angel.jpg",
+      "genres": ["Fantasy", "Action"]
+    },
+    {
+      "title": "The Last Witch",
+      "author": "Rina Yamamoto",
+      "description": "The last witch in a dying world must fight to save the remnants of humanity and prevent an evil sorcerer from consuming everything.",
+      "cover_image": "manga_covers/last_witch.jpg",
+      "genres": ["Fantasy", "Action"]
+    },
+    {
+      "title": "Celestial Warriors",
+      "author": "Taro Suzuki",
+      "description": "In a world where celestial beings walk among humans, a group of warriors must defend the realm from celestial conflicts that threaten to tear the world apart.",
+      "cover_image": "manga_covers/celestial_warriors.jpg",
+      "genres": ["Fantasy", "Adventure"]
+    },
+    {
+      "title": "Cyber World",
+      "author": "Reiko Tanaka",
+      "description": "In a future dominated by AI and cybernetics, a group of rebels fights against a tyrannical government that controls every aspect of life.",
+      "cover_image": "manga_covers/cyber_world.jpg",
+      "genres": ["Sci-Fi", "Action"]
+    },
+    {
+      "title": "The Silent Sea",
+      "author": "Hana Mori",
+      "description": "A space expedition embarks on a journey to explore the Silent Sea, a vast and mysterious galaxy with dangerous creatures lurking in the shadows.",
+      "cover_image": "manga_covers/silent_sea.jpg",
+      "genres": ["Sci-Fi", "Adventure"]
+    },
+    {
+      "title": "The Time Traveler's Curse",
+      "author": "Jin Kato",
+      "description": "A time traveler is cursed to live multiple lifetimes, facing danger in every era as he tries to undo the curse that has trapped him.",
+      "cover_image": "manga_covers/time_travelers_curse.jpg",
+      "genres": ["Sci-Fi", "Adventure"]
+    },
+    {
+      "title": "Warrior Princess",
+      "author": "Keiko Fujimoto",
+      "description": "A princess from a distant kingdom must disguise herself as a warrior to fight against an invading empire and protect her people.",
+      "cover_image": "manga_covers/warrior_princess.jpg",
+      "genres": ["Fantasy", "Action"]
+    },
+    {
+      "title": "The Witch's Reign",
+      "author": "Mayumi Takahiro",
+      "description": "A powerful witch rises to power, bringing terror to the lands. A group of rebels must find a way to defeat her and save the kingdom.",
+      "cover_image": "manga_covers/witchs_reign.jpg",
+      "genres": ["Fantasy", "Action"]
+    },
+    {
+      "title": "The Golden Serpent",
+      "author": "Satoshi Yamada",
+      "description": "A thief with a mysterious past becomes entangled in a conflict involving a legendary golden serpent and must decide between treasure and his honor.",
+      "cover_image": "manga_covers/golden_serpent.jpg",
+      "genres": ["Adventure", "Action"]
+    },
+    {
+      "title": "Moonlight Sonata",
+      "author": "Riko Kuroda",
+      "description": "A young girl with the ability to see spirits finds herself in the middle of a war between the living and the dead.",
+      "cover_image": "manga_covers/moonlight_sonata.jpg",
+      "genres": ["Fantasy", "Supernatural"]
+    },
+    {
+      "title": "The Last Samurai",
+      "author": "Tetsuya Nakamura",
+      "description": "In the twilight of the samurai era, a last surviving samurai must protect the honor of his family while facing enemies from all sides.",
+      "cover_image": "manga_covers/last_samurai.jpg",
+      "genres": ["Action", "Adventure"]
+    }
+  ]
+  

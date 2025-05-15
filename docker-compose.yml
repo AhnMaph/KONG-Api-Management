@@ -1,5 +1,3 @@
-version: '3.9'
-
 x-kong-config: &kong-env
   KONG_DATABASE: postgres
   KONG_PG_HOST: ${KONG_PG_HOST}
@@ -17,7 +15,9 @@ x-kong-config: &kong-env
   # Uncomment for SSL after adding certificates:
   # KONG_PROXY_LISTEN: 0.0.0.0:${KONG_PROXY_PORT}, 0.0.0.0:${KONG_SSL_PROXY_PORT} ssl
   # KONG_ADMIN_LISTEN: 0.0.0.0:${KONG_ADMIN_PORT}, 0.0.0.0:${KONG_SSL_ADMIN_PORT} ssl
-
+networks:
+  kong-net:
+    driver: bridge
 services:
   db:
     image: postgres:13
@@ -84,6 +84,24 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+  backend:
+    build:
+      context: ./comic-web/backend
+      dockerfile: Dockerfile
+    container_name: django-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - kong-net
+  # frontend:
+  #     build:
+  #       context: ./comic-web/frontend
+  #       dockerfile: Dockerfile
+  #     container_name: typescript-frontend
+  #     ports:
+  #       - "3001:3001"
+  #     networks:
+  #       - kong-net
   # Optional: Uncomment to add quote-service backend
   # quote-service:
   #   image: my-quote-service:latest  # Replace with actual image
@@ -91,14 +109,20 @@ services:
   #     - "8080:8080"
   #   networks:
   #     - kong-net
-
+# POST http://localhost:8001/services
+#  body: JSON {
+# 	"name":"backend-service",
+# 	"url": "http://django-backend:8080"
+# }
+#POST http://localhost:8001/services/backend-service/routes
+# {
+# 	"name": "django-backend-routes",
+# 	"paths": ["/"],
+# 	"strip_path": true
+# }
 volumes:
   postgres_data:
 
-
-networks:
-  kong-net:
-    driver: bridge
 
 secrets:
   kong_postgres_password:
