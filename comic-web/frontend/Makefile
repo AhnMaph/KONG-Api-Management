@@ -11,7 +11,7 @@ remove:
 	docker rm frontend_container
 build:
 	docker build -t frontend .
-restart: stop remove build run
+rebuild: stop remove build run
 
 .DEFAULT_GOAL := help
 
@@ -23,3 +23,4 @@ help:
 	@echo "  stop      Stop frontend"
 	@echo "  remove    remove container"
 	@echo "  build     Build frontend"
+	@echo "  Rebuild   Rebuild frontend"
