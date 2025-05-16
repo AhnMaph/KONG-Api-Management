@@ -49,6 +49,4 @@ venv/
 
 # services
 *Zone.Identifier
-*.jpg
-frontend 
-# tạm thôi 
+*.jpg 

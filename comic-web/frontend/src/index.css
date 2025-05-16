@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+@import "tailwindcss/preflight";
+@import "tailwindcss/theme";
+@import "tailwindcss/utilities";
+
+
+/* Cấu hình mặc định */
+:root {
+  color: white;
+  background-color: #171717; /* bg-neutral-900 */
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 400;
+  font-synthesis: none;
+  
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Link */
+a {
+  font-weight: 500;
+  color: #3b82f6; /* text-blue-500 */
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #60a5fa; /* text-blue-400 */
+}
+
+/* Body */
+body {
+  width: 100%;
+  min-width: 1200px; /* Ngăn trang bị co lại như mobile */
+  margin: 0;
+  padding: 0;
+  font-family: "Nunito Sans", sans-serif;
+}
+
+/* Định dạng container chính */
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.offscreen {
+  position: absolute;
+  left: -9999px;
+  visibility: hidden;
+}
+.instructions {
+  color: #f00;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+.errmsg {
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+/* Tiêu đề */
+h1 {
+  font-size: 2.25rem; /* text-4xl */
+  font-weight: 700; /* font-bold */
+  line-height: 1.25; /* leading-tight */
+}
+
+/* Button */
+button {
+  border-radius: 0.5rem; /* rounded-lg */
+  border: 1px solid transparent;
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  font-size: 1rem; /* text-base */
+  font-weight: 500; /* font-medium */
+  background-color: #262626; /* bg-neutral-800 */
+  transition: border-color 0.2s;
+}
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3); /* focus:ring-4 focus:ring-blue-300 */
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  body {
+    min-width: unset;
+    font-family: "Nunito Sans", sans-serif;
+  }
+  .container {
+    max-width: 100%;
+    padding: 10px;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #1f2937; /* text-gray-900 */
+    background-color: white;
+  }
+  a:hover {
+    color: #6366f1; /* text-indigo-500 */
+  }
+  button {
+    background-color: #f3f4f6; /* bg-gray-100 */
+  }
+}
+
+.dark {
+  background-color: #4d4d4d;
+  color: white;
+}
+
+.dark input {
+  background-color: #222;
+  color: white;
+}
+
+.dark #Homepage {
+  background-color: #4d4d4d !important;
+  color: white !important;
+}
+
+
+
+.dark #navtop {
+  background-color: #4d4d4d !important;
+  color: white;
+}
+
+.dark #navbottom {
+  background-color: #262626 !important;
+}
+
+.dark #navbottom a {
+  color: white !important;
+  background-color: #262626;
+}
+
+.dark #navbottom a:hover {
+  color: black;
+  background-color: #fede0e; /* Yellow color */
+}
+
+.loginchange{
+  background-color: #262626;
+  color: white;
+}
+.dark .forum {
+  background-color: #4d4d4d !important;
+  color: white;
+}
+
+.dark a {
+  background-color: #4d4d4d;
+  color: white;
+}
+
+.dark .Emphasize{
+  background-color: #4d4d4d;
+  color: black;
+}
+.dark #gernes a{
+  background-color: white;
+  color:black;
+}
+
+/* search bar */
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  z-index: 1000;
+}
+
+.search-result-item {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
