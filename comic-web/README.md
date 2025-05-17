@@ -67,7 +67,6 @@ Create a `.env` file in the root directory of the project and provide the necess
 SUPERUSER_USERNAME=your_username
 SUPERUSER_EMAIL=your_email
 SUPERUSER_PASSWORD=your_password
-
 ```
 
 ### Using Docker Compose
