@@ -39,10 +39,11 @@ Before getting started, ensure that Docker and Docker Compose are installed on y
 ```
 
 ├── backend/                  # Backend source code (Django)
+│   └── .env                  # Environment variables for the backend (Django)
 ├── frontend/                 # Frontend source code (React/TypeScript)
 ├── docker-compose.yml        # Docker Compose configuration
-├── .env                      # Environment variables for the project
-└── README.md                 # Project usage guide
+├── README.md                 # Project usage guide
+
 
 ````
 
