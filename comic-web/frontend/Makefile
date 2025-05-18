@@ -3,12 +3,13 @@
 include .env
 export
 
-run:
+up:
 	docker run -p 5174:5174 --name frontend_container frontend
 stop:
-	docker stop frontend_container
+	docker stop frontend_container || true
+	docker rm frontend_container || true
 remove: 
-	docker rm frontend_container
+	docker rm frontend_container || true
 build:
 	docker build -t frontend .
 rebuild: stop remove build run
@@ -19,7 +20,7 @@ help:
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Available targets:"
-	@echo "  run       Start frontend (run build first)"
+	@echo "  up       Start frontend (run build first)"
 	@echo "  stop      Stop frontend"
 	@echo "  remove    remove container"
 	@echo "  build     Build frontend"

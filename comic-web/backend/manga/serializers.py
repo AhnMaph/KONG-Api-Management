@@ -3,6 +3,7 @@ from .models import Manga
 from genres.serializers import GenresSerializer
 class MangaSerializer(serializers.ModelSerializer):
     genres = GenresSerializer(many=True, read_only=True)
+    cover_image = serializers.ImageField(use_url=False)
     class Meta:
         model = Manga
         fields = '__all__'

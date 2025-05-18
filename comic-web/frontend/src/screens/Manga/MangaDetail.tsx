@@ -6,7 +6,7 @@ import {Manga} from '../../types/manga/mangaDetails';
 import {MangaChapter} from '../../types/manga/mangaChapters';
 import { fetchMangaDetails, fetchMangaChapters, updateNumberFavoriteManga} from '../../actions/mangaActions'; 
 import { faEye, faCommentDots, faHeart } from "@fortawesome/free-solid-svg-icons";
-
+import { MEDIA_URl } from "../../components/config";
 const StoryDetailPage = () => {
   const { mangaId } = useParams(); // từ URL /story/:mangaId
   const [story, setStory] = useState<Manga | null>(null);
@@ -62,7 +62,7 @@ const StoryDetailPage = () => {
             {/* Ảnh bìa bên trái */}
             <div className="w-1/2 md:w-[200px] flex-shrink-0 mx-auto md:mx-0">
               <img
-                src={story.cover_image}
+                src={MEDIA_URl+story.cover_image}
                 alt="Ảnh bìa"
                 className="w-full h-auto object-cover rounded-lg shadow-md"
               />

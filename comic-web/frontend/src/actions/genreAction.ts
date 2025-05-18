@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Genre } from "../types/genre/genreDetails";
-
-const API_BASE_URL = "http://localhost:8000";
+import { API_BASE_URL } from "../components/config";
 
 export const fetchGenre = async (): Promise<Genre[]> => {
     try {

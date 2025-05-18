@@ -217,6 +217,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^http://localhost:\d+$",
     r"^http://127\.0\.0\.1:\d+$",
+    r"^http://kong:\d+$", 
 ]
 
 CORS_ALLOW_HEADERS = [
@@ -228,7 +229,13 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
-CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5174",  # Thay bằng URL frontend của bạn
+    "http://localhost:5174",
+    "http://localhost:8000",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5174",
+    "http://localhost:8000",
+    "http://kong:8000",
 ]

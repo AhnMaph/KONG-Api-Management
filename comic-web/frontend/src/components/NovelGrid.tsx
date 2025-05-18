@@ -3,11 +3,11 @@ import { Novel } from "../types/novel/novelDetails";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faCommentDots, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-
+import { MEDIA_URl } from "./config";
 const NovelGrid = ({ novels }: { novels: Novel[] }) => {
   if (!novels.length)
     return <p className="text-gray-500">Không có truyện nào để hiển thị.</p>;
-
+  console.log("debug image: ",novels[0].cover_image)
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
       {novels.map((novel) => (
@@ -18,7 +18,7 @@ const NovelGrid = ({ novels }: { novels: Novel[] }) => {
           <Link to={`/novel/${novel._id}`} className="flex flex-col h-full">
             <div className="w-full aspect-[5/7] overflow-hidden rounded">
               <img
-                src={novel.cover_image}
+                src={MEDIA_URl+novel.cover_image}
                 alt={novel.title}
                 className="w-full h-full object-cover rounded"
               />

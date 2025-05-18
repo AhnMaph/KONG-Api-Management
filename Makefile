@@ -1,4 +1,4 @@
-.PHONY: up down reset logs health status clean build rebuild help
+.PHONY: up down reset logs health status clean build rebuild help clean_port_8000
 
 include .env
 export
@@ -16,14 +16,14 @@ build:
 rebuild:
 	docker-compose down -v || true
 	docker-compose up --build
+clean_port_8000:
+	docker ps --format '{{.ID}} {{.Ports}}' | grep '0.0.0.0:8000' | awk '{print $1}' | xargs -r docker stop
 logs:
 	docker compose logs -f kong
 health:
 	curl -s http://localhost:${KONG_ADMIN_PORT}/status | jq
-
 status:
 	docker compose ps kong
-
 clean:
 	docker compose stop
 #	docker-compose down -v
@@ -43,3 +43,5 @@ help:
 	@echo "  health    Check health status of Kong"
 	@echo "  status    Show status of Kong container"
 	@echo "  clean     Stop and remove container"
+	@echo "  clean_port_8000     Stop container running port 8000"
+	

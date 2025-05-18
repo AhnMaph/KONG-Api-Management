@@ -1,9 +1,9 @@
 # Python/Django
 __pycache__/
 *.py[cod]
-*.sqlite3
+# *.sqlite3
 *.log
-db.sqlite3
+# db.sqlite3
 .env
 venv/
 .venv/
@@ -29,16 +29,16 @@ package-lock.json
 pnpm-lock.yaml
 
 # Static & Media Files
-staticfiles/
+# staticfiles/
 # media/
-static/
-# *.png
+# static/
+*.png
 *.jpg
 *.mp3
-# *.jpeg
-# *.gif
-# *.svg
-# *.json
+*.jpeg
+*.gif
+*.svg
+*.json
 # Coverage & Testing
 .coverage
 htmlcov/

@@ -1,12 +1,12 @@
 import axios from 'axios';
-const baseURL = 'http://localhost:8000'
+import { API_BASE_URL } from '../components/config';
 export const audioText = async (text: string, nameFile: string) => {
     try {
           const config = {
             headers: { 'Content-Type': 'audio/mpeg' },
             }
           const response = await axios.post(
-              `${baseURL}/api/audio/tts/${nameFile}/`, 
+              `${API_BASE_URL}/api/audio/tts/${nameFile}/`, 
               {text:text}, 
               config
           );

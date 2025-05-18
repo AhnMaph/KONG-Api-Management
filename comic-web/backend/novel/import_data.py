@@ -44,7 +44,9 @@ def import_novel(json_file_path):
     )
     if cover_file and cover_url:
         cover_name = cover_url.split("/")[-1] + ".jpg"
+        print("Name file: ", cover_url, cover_name)
         novel.cover_image.save(cover_name, cover_file, save=True)
+        print("cover link: ", novel.cover_image)
     genre_names = item.get('genres', [])
     genre_instances = []
     for name in genre_names:

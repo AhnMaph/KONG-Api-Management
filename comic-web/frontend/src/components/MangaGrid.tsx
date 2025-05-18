@@ -3,7 +3,7 @@ import { Manga } from "../types/manga/mangaDetails";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faCommentDots, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-
+import { MEDIA_URl } from "./config";
 const MangaGrid = ({ mangas }: { mangas: Manga[] }) => {
   if (!mangas.length)
     return <p className="text-gray-500">Không có truyện nào để hiển thị.</p>;
@@ -18,7 +18,7 @@ const MangaGrid = ({ mangas }: { mangas: Manga[] }) => {
           <Link to={`/manga/${manga._id}`} className="flex flex-col h-full">
             <div className="w-full aspect-[5/7] overflow-hidden rounded">
               <img
-                src={manga.cover_image}
+                src={MEDIA_URl+manga.cover_image}
                 alt={manga.title}
                 className="w-full h-full object-cover rounded"
               />
