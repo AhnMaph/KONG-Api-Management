@@ -15,9 +15,11 @@ x-kong-config: &kong-env
   # Uncomment for SSL after adding certificates:
   # KONG_PROXY_LISTEN: 0.0.0.0:${KONG_PROXY_PORT}, 0.0.0.0:${KONG_SSL_PROXY_PORT} ssl
   # KONG_ADMIN_LISTEN: 0.0.0.0:${KONG_ADMIN_PORT}, 0.0.0.0:${KONG_SSL_ADMIN_PORT} ssl
+
 networks:
   kong-net:
     driver: bridge
+
 services:
   db:
     image: postgres:13
@@ -84,6 +86,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
   backend:
     build:
       context: ./comic-web/backend
@@ -93,6 +96,26 @@ services:
       - "8080:8080"
     networks:
       - kong-net
+
+  logging-service:
+    build:
+      context: ./logging-service
+      dockerfile: Dockerfile
+    container_name: logging-service
+    ports:
+      - "8081:8080" # Map host port 8081 to container port 8080
+    networks:
+      kong-net:
+        aliases:
+          - logging-service
+    volumes:
+      - ./logging-service/logs:/app/logs # Persist logs to the host
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   # frontend:
   #     build:
   #       context: ./comic-web/frontend
@@ -102,6 +125,7 @@ services:
   #       - "3001:3001"
   #     networks:
   #       - kong-net
+
   # Optional: Uncomment to add quote-service backend
   # quote-service:
   #   image: my-quote-service:latest  # Replace with actual image
@@ -112,7 +136,6 @@ services:
 
 volumes:
   postgres_data:
-
 
 secrets:
   kong_postgres_password:
