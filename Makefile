@@ -4,7 +4,7 @@ include .env
 export
 
 up:
-	docker-compose up --build
+	docker compose up --build
 down:
 	docker compose down
 reset: 
@@ -45,3 +45,16 @@ help:
 	@echo "  clean     Stop and remove container"
 	@echo "  clean_port_8000     Stop container running port 8000"
 	
+dump:
+	deck gateway dump --kong-addr http://localhost:8001 --output-file kong.yaml
+
+sync:
+	deck gateway sync --kong-addr http://localhost:8001 kong.yaml
+
+diff:
+	deck gateway diff --kong-addr http://localhost:8001 kong.yaml
+
+rsync: 
+	deck gateway reset --kong-addr http://localhost:8001
+	deck gateway sync --kong-addr http://localhost:8001 kong.yaml
+
