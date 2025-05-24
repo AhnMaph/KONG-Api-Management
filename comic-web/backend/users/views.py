@@ -1,82 +1,165 @@
+import secrets
+import jwt
+import requests
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny,IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate
 from .serializers import *
-from .models import Favorite
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from .models import *
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.http import HttpResponse
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from datetime import datetime, timedelta,timezone
+from rest_framework.views import APIView
+from dotenv import load_dotenv
+import os
+load_dotenv()
+KONG_ADMIN_URL = os.getenv("KONG_ADMIN_URL")
+def create_jwt(user, key, secret):
+    # 5. Tạo JWT Access Token
+    now = datetime.now(timezone.utc)
+    access_token = jwt.encode({
+        "iss": key,
+        "sub": str(user.id),
+        "username": str(user.id),
+        "iat": now,
+        "exp": now + timedelta(minutes=5),
+    }, secret, algorithm="HS256")
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):   
-    def validate(self,attrs):
-        data = super().validate(attrs) # perform JWT authentication.
-        serializer = UserSerializerWithToken(self.user).data
-        for k,v in serializer.items():
-            data[k] = v # add more data
-        return data   
+    # 6. Tạo Refresh Token (giản lược — có thể dùng SimpleJWT chính quy)
+    refresh_token = jwt.encode({
+        "sub": str(user.id),
+        "type": "refresh",
+        "iat": now,
+        "exp": now + timedelta(days=7)
+    }, secret, algorithm="HS256")
 
-class MyTokenObtainView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
+    return access_token, refresh_token
 
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def registerUser(request):
-    data = request.data
-    try:
-        if User.objects.filter(email=data["email"]).exists():
-            return Response({"detail": "User with this email already exists"}, status=status.HTTP_400_BAD_REQUEST)
-        if not data['name'] or not data['password']:
-            return Response({"detail": "Email and password are required"}, status=status.HTTP_400_BAD_REQUEST)
-        user = User.objects.create(
-            first_name = data['name'],
-            username = data['email'],
-            email = data['email'],
-            password = make_password(data['password']) # hash password for security
+class RegisterUserView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        username = request.data.get("username")
+        email = request.data.get("email")
+        password = request.data.get("password")
+        if not all([username, email, password]):
+           return  Response({"error": "Username, email, and password are required"}, status=400)
+        if User.objects.filter(username=username).exists():
+            return Response({"error": "Username already exists"}, status=400)
+        if User.objects.filter(email=email).exists():
+            return Response({"error": "Email already exists"}, status=400)
+
+        # 1. Tạo user trong Django
+        user = User.objects.create_user(username=username, email=email, password=password)
+
+        # 2. Tạo Kong Consumer
+        kong_consumer_resp = requests.post(
+            f"{KONG_ADMIN_URL}/consumers",
+            json={"username": str(user.id)}
         )
-        print("Received data:", request.data) 
-        message = {'detail': 'Register Successfully!'}
+        if kong_consumer_resp.status_code not in (200, 201):
+            return Response({"error": "Kong consumer creation failed"}, status=500)
+
+        # 3. Tạo JWT Credential
+        key = f"user_{user.id}_key"
+        secret = secrets.token_urlsafe(32)
+
+        kong_jwt_resp = requests.post(
+            f"{KONG_ADMIN_URL}/consumers/{str(user.id)}/jwt",
+            json={"key": key, "secret": secret}
+        )
+        if kong_jwt_resp.status_code not in (200, 201):
+            return Response({"error": "Kong JWT credential creation failed"}, status=500)
+
+        # 4. Tạo refresh/access token
+        access_token, refresh_token = create_jwt(user, key, secret)
+
+        # 5. Lưu key/secret 
+        JWTKey.objects.create(user=user, key=key, secret=secret)
+
+
+        # 6. Trả token qua cookie
+        response = Response({"message": "User registered", "id": user.id},status=200)
         
-        return Response({"message": message, "id": user.id}, status=status.HTTP_200_OK)
+        # Set cookie (HttpOnly, Secure nếu prod)
+        response.set_cookie("access_token", 
+                            access_token, 
+                            httponly=True,
+                            domain='kong', 
+                            max_age=300)
+        response.set_cookie("refresh_token", 
+                            refresh_token, 
+                            httponly=True,
+                            domain="kong", 
+                            max_age=7*24*3600)
 
-    except Exception as e:
-        return Response({"error": f"Lỗi: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+        return response
+
+class LoginView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        # 1. Lấy thông tin
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        # 2. Xác thực user
+        print("username: ",username)
+        print("password: ", password)
+        user = authenticate(username=username, password=password)
+        if not user:
+            return Response({"error": "Invalid credentials"}, status=401)
+
+        # 3. Lấy jwt credential tương ứng
+        jwt_obj = JWTKey.objects.get(user=user)
+
+        # 4. Trả về token 
+        access_token, refresh_token = create_jwt(user, jwt_obj.key, jwt_obj.secret)
+        info = {"user":({"username":user.username},{"_id":user.id})}
+        response = Response(info, status=200)
+        response.set_cookie("access_token", access_token, httponly=True, max_age=300)
+        response.set_cookie("refresh_token", refresh_token, httponly=True, max_age=7*24*3600)
+        return response
 
 
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def loginUser(request):
-    data = request.data
-    try:
-        email = data['email']
-        password = data['password']
-        
-        user = authenticate(username=email, password=password)
+class RefreshTokenView(APIView):
+    permission_classes = [AllowAny]
 
-        if user is not None:
-            refresh = RefreshToken.for_user(user)
-            access_token = str(refresh.access_token)
-            info = {"user":({"username":user.username},{"_id":user.id})}
-            response = HttpResponse({"message": "Đăng nhập thành công!"}, info)
-            response.set_cookie(
-                key="access_token", value=access_token, httponly=True, secure=True, samesite="Lax"
-            )
-            response.set_cookie(
-                key="refresh_token", value=str(refresh), httponly=True, secure=True, samesite="Lax"
-            )
+    def post(self, request):
+        import jwt
+        from jwt.exceptions import InvalidTokenError
 
+        refresh_token = request.COOKIES.get("refresh_token")
+        if not refresh_token:
+            return Response({"error": "No refresh token"}, status=401)
+
+        try:
+            # Decode token để lấy user_id
+            unverified = jwt.decode(refresh_token, options={"verify_signature": False})
+            user_id = unverified.get("sub")
+            user = User.objects.get(id=user_id)
+            jwt_obj = JWTKey.objects.get(user=user)
+
+            decoded = jwt.decode(refresh_token, jwt_obj.secret, algorithms=["HS256"])
+            if decoded.get("type") != "refresh":
+                raise InvalidTokenError()
+
+            # Tạo lại token mới
+            access_token, refresh_token = create_jwt(user, jwt_obj.key, jwt_obj.secret)
+
+            response = Response({"message": "Refreshed"},status=200)
+            response.set_cookie("access_token", access_token, httponly=True, max_age=300)
+            response.set_cookie("refresh_token", refresh_token, httponly=True, max_age=7*24*3600)
             return response
 
-        return Response({"error": password}, status=status.HTTP_400_BAD_REQUEST)
+        except (InvalidTokenError, User.DoesNotExist, JWTKey.DoesNotExist):
+            return Response({"error": "Invalid refresh"}, status=401)
 
-    except Exception as e:
-        return Response({"error": f"Lỗi: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -85,63 +168,6 @@ def logoutUser(request):
     response.delete_cookie("access_token", path="/",domain="localhost")
     response.delete_cookie("refresh_token", path="/",domain="localhost")
     return response
-
-@api_view(["POST"])
-@permission_classes([AllowAny])
-def refreshTokenView(request):
-    refresh_token = request.COOKIES.get("refresh_token")  # Lấy refresh token từ cookie
-    
-    if not refresh_token:
-        return Response({"error": "Không có refresh token!"}, status=status.HTTP_401_UNAUTHORIZED)
-    try:
-        refresh = RefreshToken(refresh_token)  # Tạo access token mới từ refresh token
-        new_access_token = str(refresh.access_token)
-
-        response = HttpResponse({"message": "Refresh token thành công!"})
-        response.set_cookie(
-            key="access_token",
-            value=new_access_token,
-            httponly=True,
-            secure=True,
-            samesite="Lax",
-        )
-        return response
-
-    except Exception:
-        return Response({"error": "Refresh token không hợp lệ!"}, status=status.HTTP_401_UNAUTHORIZED)   
-
-
-    
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated])
-def updateUserProfile(request):
-    try:
-        user = request.user 
-        serializer = UserSerializerWithToken(user,many=False)
-        data = request.data
-        user.first_name =data['name']
-        user.username = data['username']
-        user.email = data['email']
-        if data['password']!='':
-            user.password = make_password(data['password'])
-        user.save()
-        return Response(serializer.data)
-    except Exception as e:
-        return Response({'detail':f'{e}'},status=status.HTTP_204_NO_CONTENT)
-
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def getUserProfile(request):
-    user = request.user
-    username = user.get['username']
-    id = user.get['id'] 
-    email = user.get['email']
-    info = {"user":({"username":username},{"id":id},{"email":email})}
-    try:
-        return Response(info,status=status.HTTP_200_OK)
-    except Exception as e:
-        return Response({'detail':f'{e}'},status=status.HTTP_204_NO_CONTENT)
-# CRUD create, delete v.v 
 
 
 class LikeViewSet(viewsets.ModelViewSet):
@@ -167,6 +193,7 @@ class LikeViewSet(viewsets.ModelViewSet):
             # Cập nhật số lượt thích cho Novel
             novel.numLikes += 1  # Tăng thêm 1 lượt thích
             novel.save(update_fields=['numLikes'])
+            serializer.save(uploader=self.request.user)
     def perform_destroy(self, instance):
         # Truy cập đối tượng Novel liên quan đến Like
         novel = instance.novel
@@ -195,6 +222,7 @@ class CommentViewSet(viewsets.ModelViewSet):
             novel = serializer.validated_data['novel'] # Lấy đối tượng Novel từ Comment
             novel.numComments += 1  # Tăng thêm 1 lượt thích
             novel.save(update_fields=['numComments'])
+            serializer.save(uploader=self.request.user)
         else: 
             print(serializer.errors)
     def perform_destroy(self, instance):
@@ -206,7 +234,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         
         # Xóa đối tượng Comment
         instance.delete()
-
+    
 
 class FavoriteViewSet(viewsets.ModelViewSet):
     queryset = Favorite.objects.all()
@@ -222,6 +250,7 @@ class FavoriteViewSet(viewsets.ModelViewSet):
             novel = serializer.validated_data['novel']
             novel.numFavorites += 1
             novel.save(update_fields=['numFavorites'])
+            serializer.save(uploader=self.request.user)
         else: 
             print(serializer.errors)
     def perform_destroy(self, instance):

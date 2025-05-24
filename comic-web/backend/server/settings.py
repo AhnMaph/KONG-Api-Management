@@ -103,9 +103,9 @@ INSTALLED_APPS = [
     'audio',
     'genres',
     'users',
-    'commentChapter',
     'forum',
 ]
+# AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

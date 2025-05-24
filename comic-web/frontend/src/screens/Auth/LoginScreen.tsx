@@ -12,7 +12,7 @@ export default function LoginScreen() {
     const errRef = useRef<HTMLInputElement | null>(null);
     
     // const [user, setUser] = useState('');
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
@@ -25,16 +25,16 @@ export default function LoginScreen() {
 
     useEffect(()=>{
         setErrMsg('');
-    },[pwd,email]);
+    },[pwd,username]);
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
         
         try{
-            const response = await loginUser(email, pwd);
+            const response = await loginUser(username, pwd);
             if(response?.status!==200) throw Error;
             dispatch(login({isLogin:true}))
             setSuccess(true);
-            setEmail('');
+            setUsername('');
             setPwd('');
         }
         catch (err: any) {
@@ -77,15 +77,15 @@ export default function LoginScreen() {
                                         <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
                                         <div className="mb-4 w-full">
-                                        <label className="font-medium whitespace-nowrap">Email</label>
+                                        <label className="font-medium whitespace-nowrap">Username</label>
                                             <input 
-                                            type="email" 
-                                            id="email"
+                                            type="username" 
+                                            id="username"
                                             ref = {userRef}
                                             autoComplete="on"
-                                            onChange={(e)=>setEmail(e.target.value)}
-                                            value = {email}
-                                            className="p-2 border rounded w-full" placeholder="Nhập email" required />
+                                            onChange={(e)=>setUsername(e.target.value)}
+                                            value = {username}
+                                            className="p-2 border rounded w-full" placeholder="Nhập username" required />
                                         </div>
 
                                         <div className="mb-4 w-full">

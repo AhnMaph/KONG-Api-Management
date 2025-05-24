@@ -1,11 +1,8 @@
+from .models import *
+
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
-
-from manga.serializers import MangaSerializer
-
-from .models import *
-
 
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)

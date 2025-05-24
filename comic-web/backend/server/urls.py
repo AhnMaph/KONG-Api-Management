@@ -14,7 +14,6 @@ urlpatterns = [
     path('api/', include('users.urls')),
     path('api/', include('chapter.urls')),
     path('api/', include('novel.urls')),
-    path('api/', include('commentChapter.urls')),
     path('api/', include('forum.urls')),
 
     path('', home),

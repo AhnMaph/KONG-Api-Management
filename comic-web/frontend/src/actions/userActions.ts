@@ -25,14 +25,14 @@ export const registerUser = async (name: string, email: string, password: string
     }
 };
 
-export const loginUser = async (email: string, password: string) => {
+export const loginUser = async (username: string, password: string) => {
     try {
         const config = {
             headers: { 'Content-Type': 'Application/json' },
             withCredentials:true,
         }
         const response = await axios.post(`${baseURL}/api/login/`, 
-            {email, password}, 
+            {username, password}, 
             config
         );
         console.log(response); // Debug kết quả

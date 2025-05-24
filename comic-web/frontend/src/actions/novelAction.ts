@@ -5,7 +5,9 @@ const baseURL = 'http://localhost:8000';
 
 export const fetchStoryDetails = async (novelid: string) => {
     try{
-      const response = await axios.get(`${baseURL}/api/novel/${novelid}`)
+      const response = await axios.get(
+        `${baseURL}/api/novel/${novelid}`,
+      {withCredentials: true})
       console.log("novel details:");
       console.log(response.data);
       return response.data;
@@ -18,7 +20,7 @@ export const fetchStoryDetails = async (novelid: string) => {
 
 export const fetchStoryChapters = async (novelid: string) => {
   try {
-    const response = await axios.get(`${baseURL}/api/novel/${novelid}/chapters`);
+    const response = await axios.get(`${baseURL}/api/novel/${novelid}/chapters`,{withCredentials: true});
     console.log("list chapters:");
     console.log(response.data);
     return response.data;
@@ -33,7 +35,7 @@ export const fetchStoryChapters = async (novelid: string) => {
 
 export const fetchChapterDetail = async (chapterId: string) => {
   try {
-    const response = await axios.get(`${baseURL}/api/novel/chapter/${chapterId}`);
+    const response = await axios.get(`${baseURL}/api/novel/chapter/${chapterId}`,{withCredentials: true});
     console.log("chapter details:");
     console.log(response.data);
     return response.data;
@@ -47,7 +49,7 @@ export const fetchChapterDetail = async (chapterId: string) => {
 export const updateNumberFavorite  = async (novelid: string) => {
   try{
       //const response = await axios.post(`${baseURL}/api/novel/baa9a61e-35d5-4ac1-9d55-1fbfefbc21ef/updateNumFavorite/`);
-      const response = await axios.put(`${baseURL}/api/novel/${novelid}/updateNumFavorite/`);
+      const response = await axios.put(`${baseURL}/api/novel/${novelid}/updateNumFavorite/`,{withCredentials: true});
       console.log(response.data);
       return response.data;
   }
@@ -60,7 +62,7 @@ export const updateNumberFavorite  = async (novelid: string) => {
 
 export const updateNumberComments = async (novelid: string) => {
   try {
-      const response = await axios.put(`${baseURL}/api/novel/${novelid}/updateNumComments/`);
+      const response = await axios.put(`${baseURL}/api/novel/${novelid}/updateNumComments/`,{withCredentials: true});
       console.log(response.data);
       return response.data;
   } 
@@ -74,7 +76,7 @@ export const updateNumberComments = async (novelid: string) => {
 
 export const fetchNovel = async (page=1): Promise<Novel[]> => {
     try {
-            const response = await axios.get(`${baseURL}/api/novel/?page=${page}`);
+            const response = await axios.get(`${baseURL}/api/novel/?page=${page}`,{withCredentials: true});
             console.log(response)
             console.log(`${baseURL}/api/novel/?page=${page}`)
             const data = await response.data

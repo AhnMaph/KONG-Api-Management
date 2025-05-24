@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
@@ -8,11 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Value, IntegerField, Case, When, Q, Count
 from .models import Novel
-from rest_framework import filters
-
-from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
+
 
 
 
