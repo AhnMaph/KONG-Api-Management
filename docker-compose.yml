@@ -61,7 +61,9 @@ services:
     restart: on-failure
 
   kong:
-    image: ${KONG_DOCKER_TAG}
+    build:
+          context: ./kong
+          dockerfile: Dockerfile
     depends_on:
       db:
         condition: service_healthy
@@ -81,6 +83,8 @@ services:
     networks:
       - kong-net
     restart: unless-stopped
+    volumes:
+      - ./kong-logs:/var/log/kong  # Add this volume mount
     logging:
       driver: json-file
       options:
