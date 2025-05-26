@@ -17,6 +17,7 @@ from datetime import datetime, timedelta,timezone
 from rest_framework.views import APIView
 from dotenv import load_dotenv
 import os
+from django.contrib.auth.models import Group
 load_dotenv()
 KONG_ADMIN_URL = os.getenv("KONG_ADMIN_URL")
 def create_jwt(user, key, secret):
@@ -75,6 +76,10 @@ class RegisterUserView(APIView):
         )
         if kong_jwt_resp.status_code not in (200, 201):
             return Response({"error": "Kong JWT credential creation failed"}, status=500)
+
+        requests.post(f"{KONG_ADMIN_URL}/consumers/{user.id}/acls", data={"group": "normal"})
+        normal_group = Group.objects.get(name="normal")
+        user.groups.add(normal_group)
 
         # 4. Tạo refresh/access token
         access_token, refresh_token = create_jwt(user, key, secret)
