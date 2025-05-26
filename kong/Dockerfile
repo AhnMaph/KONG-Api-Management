@@ -3,6 +3,15 @@ FROM kong:3.6
 # Switch to root to perform setup
 USER root
 
+# Install curl, ping, and other useful utilities
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        curl \
+        iputils-ping \
+        && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Create log directory and set permissions
 RUN mkdir -p /var/log/kong && \
     chown kong:kong /var/log/kong && \

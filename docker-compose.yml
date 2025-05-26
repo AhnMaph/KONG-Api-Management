@@ -96,8 +96,9 @@ services:
       context: ./comic-web/backend
       dockerfile: Dockerfile
     container_name: django-backend
-    ports:
-      - "8080:8080"
+    # only uncomment if you want to expose the backend service directly
+    # ports:
+    #   - "8080:8080"
     networks:
       - kong-net
 
@@ -106,8 +107,9 @@ services:
       context: ./logging-service
       dockerfile: Dockerfile
     container_name: logging-service
-    ports:
-      - "8081:8080" # Map host port 8081 to container port 8080
+    # only uncomment if you want to expose the logging service directly
+    # ports:
+    #   - "8081:8080" # Map host port 8081 to container port 8080
     networks:
       kong-net:
         aliases:

@@ -11,7 +11,7 @@ from rest_framework.permissions import AllowAny,IsAuthenticated,IsAdminUser
 class MangaViewSet(viewsets.ModelViewSet):
     queryset = Manga.objects.all()
     serializer_class = MangaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def perform_create(self, serializer):
         serializer.save(uploader=self.request.user)
     def get_queryset(self):
