@@ -1,20 +1,31 @@
-x-kong-config: &kong-env
+x-kong-config: &kong-config
   KONG_DATABASE: postgres
-  KONG_PG_HOST: ${KONG_PG_HOST}
+  KONG_PG_HOST: kong-db
   KONG_PG_USER: ${KONG_PG_USER}
   KONG_PG_PASSWORD_FILE: /run/secrets/kong_postgres_password
   KONG_PG_DATABASE: ${KONG_PG_DATABASE}
-  KONG_PROXY_ACCESS_LOG: /dev/stdout
-  KONG_PROXY_ERROR_LOG: /dev/stderr
-  KONG_ADMIN_ACCESS_LOG: /dev/stdout
-  KONG_ADMIN_ERROR_LOG: /dev/stderr
+  KONG_PROXY_ACCESS_LOG: /var/log/kong/proxy_access.log
+  KONG_PROXY_ERROR_LOG: /var/log/kong/proxy_error.log
+  KONG_ADMIN_ACCESS_LOG: /var/log/kong/admin_access.log
+  KONG_ADMIN_ERROR_LOG: /var/log/kong/admin_error.log
   KONG_ADMIN_GUI_LISTEN: 0.0.0.0:${KONG_ADMIN_GUI_PORT}
-  KONG_PROXY_LISTEN: 0.0.0.0:${KONG_PROXY_PORT}
-  KONG_ADMIN_LISTEN: 0.0.0.0:${KONG_ADMIN_PORT}
-  KONG_LOG_LEVEL: info
-  # Uncomment for SSL after adding certificates:
-  # KONG_PROXY_LISTEN: 0.0.0.0:${KONG_PROXY_PORT}, 0.0.0.0:${KONG_SSL_PROXY_PORT} ssl
-  # KONG_ADMIN_LISTEN: 0.0.0.0:${KONG_ADMIN_PORT}, 0.0.0.0:${KONG_SSL_ADMIN_PORT} ssl
+  KONG_PROXY_LISTEN: 0.0.0.0:${KONG_PROXY_PORT}, 0.0.0.0:${KONG_SSL_PROXY_PORT} ssl
+  KONG_ADMIN_LISTEN: 0.0.0.0:${KONG_ADMIN_PORT}, 0.0.0.0:${KONG_SSL_ADMIN_PORT} ssl
+  KONG_LOG_LEVEL: debug
+  KONG_PLUGINS: bundled,file-log,prometheus
+  KONG_PLUGIN_FILE_LOG_PATH: /var/log/kong/custom.log
+  KONG_PLUGIN_FILE_LOG_REOPEN: "true"
+  KONG_SSL_CERT: /etc/kong/ssl/kong.crt
+  KONG_SSL_CERT_KEY: /etc/kong/ssl/kong.key
+
+# Configuration for kong-migrations (no SSL)
+x-kong-migration-config: &kong-migration-config
+  KONG_DATABASE: postgres
+  KONG_PG_HOST: kong-db
+  KONG_PG_USER: ${KONG_PG_USER}
+  KONG_PG_PASSWORD_FILE: /run/secrets/kong_postgres_password
+  KONG_PG_DATABASE: ${KONG_PG_DATABASE}
+  KONG_LOG_LEVEL: debug
 
 networks:
   kong-net:
@@ -32,14 +43,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${KONG_PG_USER} -d ${KONG_PG_DATABASE}" ]
+      test: ["CMD-SHELL", "pg_isready -U ${KONG_PG_USER} -d ${KONG_PG_DATABASE}"]
       interval: 5s
       timeout: 5s
       retries: 5
     networks:
       kong-net:
         aliases:
-          - ${KONG_PG_HOST}
+          - kong-db
     logging:
       driver: json-file
       options:
@@ -47,13 +58,13 @@ services:
         max-file: "3"
 
   kong-migrations:
-    image: ${KONG_DOCKER_TAG}
+    image: kong:3.8
     command: kong migrations bootstrap && kong migrations up
     depends_on:
       db:
         condition: service_healthy
     environment:
-      <<: *kong-env
+      <<: *kong-migration-config  # Use migration-specific config (no SSL)
     secrets:
       - kong_postgres_password
     networks:
@@ -62,29 +73,31 @@ services:
 
   kong:
     build:
-          context: ./kong
-          dockerfile: Dockerfile
+      context: ./kong
+      dockerfile: Dockerfile
     depends_on:
       db:
         condition: service_healthy
       kong-migrations:
         condition: service_completed_successfully
     environment:
-      <<: *kong-env
+      <<: *kong-config
     ports:
-      - "${KONG_PROXY_PORT}:${KONG_PROXY_PORT}" # Proxy
-      - "${KONG_ADMIN_PORT}:${KONG_ADMIN_PORT}" # Admin API
-      - "${KONG_ADMIN_GUI_PORT}:${KONG_ADMIN_GUI_PORT}" # Kong Manager
-      # Uncomment for SSL after adding certificates:
-      # - "${KONG_SSL_PROXY_PORT}:${KONG_SSL_PROXY_PORT}" # SSL Proxy
-      # - "${KONG_SSL_ADMIN_PORT}:${KONG_SSL_ADMIN_PORT}" # SSL Admin API
+      - "${KONG_PROXY_PORT}:${KONG_PROXY_PORT}"  # 8000
+      - "${KONG_ADMIN_PORT}:${KONG_ADMIN_PORT}"  # 8001
+      - "${KONG_ADMIN_GUI_PORT}:${KONG_ADMIN_GUI_PORT}"  # 8002
+      - "${KONG_SSL_PROXY_PORT}:${KONG_SSL_PROXY_PORT}"  # 8443
+      - "${KONG_SSL_ADMIN_PORT}:${KONG_SSL_ADMIN_PORT}"  # 8444
+      - "8002:8002"  # Prometheus metrics
     secrets:
       - kong_postgres_password
     networks:
       - kong-net
     restart: unless-stopped
     volumes:
-      - ./kong-logs:/var/log/kong  # Add this volume mount
+      - ./kong-logs:/var/log/kong
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./kong/ssl:/etc/kong/ssl:ro
     logging:
       driver: json-file
       options:
@@ -96,52 +109,134 @@ services:
       context: ./comic-web/backend
       dockerfile: Dockerfile
     container_name: django-backend
-    # only uncomment if you want to expose the backend service directly
-    # ports:
-    #   - "8080:8080"
     networks:
       - kong-net
-
-  logging-service:
-    build:
-      context: ./logging-service
-      dockerfile: Dockerfile
-    container_name: logging-service
-    # only uncomment if you want to expose the logging service directly
-    # ports:
-    #   - "8081:8080" # Map host port 8081 to container port 8080
-    networks:
-      kong-net:
-        aliases:
-          - logging-service
-    volumes:
-      - ./logging-service/logs:/app/logs # Persist logs to the host
     logging:
       driver: json-file
       options:
         max-size: "10m"
         max-file: "3"
 
-  # frontend:
-  #     build:
-  #       context: ./comic-web/frontend
-  #       dockerfile: Dockerfile
-  #     container_name: typescript-frontend
-  #     ports:
-  #       - "3001:3001"
-  #     networks:
-  #       - kong-net
+  logging-service:
+    build:
+      context: ./logging-service
+      dockerfile: Dockerfile
+    container_name: logging-service
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "8081:8080"
+      - "8003:8001"
+    networks:
+      kong-net:
+        aliases:
+          - logging-service
+    volumes:
+      - ./kong-logs:/app/logs
+      - ./kong-service-logs:/app/service_logs
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
-  # Optional: Uncomment to add quote-service backend
-  # quote-service:
-  #   image: my-quote-service:latest  # Replace with actual image
-  #   ports:
-  #     - "8080:8080"
-  #   networks:
-  #     - kong-net
+  prometheus:
+    image: prom/prometheus:v2.54.0
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alert.rules.yml:/etc/prometheus/alert.rules.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - kong-net
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - kong-net
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - kong-net
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.15.0
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./kong-logs:/var/log/kong:ro
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - kong-net
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.0
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - kong-net
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   postgres_data:
+  prometheus_data:
+  grafana_data:
+  elasticsearch_data:
 
 secrets:
   kong_postgres_password:

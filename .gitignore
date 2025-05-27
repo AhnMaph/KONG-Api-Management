@@ -7,6 +7,7 @@
 POSTGRES_PASSWORD
 *.env
 secrets/
+ssl/
 
 # Database files
 postgres_data/

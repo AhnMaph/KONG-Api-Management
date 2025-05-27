@@ -1,0 +1,17 @@
+groups:
+  - name: kong_alerts
+    rules:
+      - alert: HighErrorRate
+        expr: rate(kong_nginx_http_requests_total{status=~"5.."}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High 5xx error rate on {{ $labels.service }}"
+      - alert: LoggingServiceError
+        expr: rate(logging_service_errors_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate in logging-service"
