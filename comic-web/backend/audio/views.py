@@ -8,6 +8,26 @@ from chapter.models import NovelChapter
 from gtts import gTTS
 import json
 from django.views.decorators.csrf import csrf_exempt
+import re
+
+
+def slugify_vietnamese(text: str) -> str:
+    """
+    Hàm sử lý content từ audio
+    """
+    from_chars = "áàảãạăắằẳẵặâấầẩẫậđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ"
+    to_chars   = "aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyy"
+
+    text = text.lower()
+    translation_table = str.maketrans(from_chars, to_chars)
+    text = text.translate(translation_table)
+
+    text = re.sub(r'\s+', '-', text)               # thay space bằng dấu gạch ngang
+    text = re.sub(r'[^a-z0-9\-]', '', text)        # chỉ giữ a-z, 0-9 và dấu gạch ngang
+    text = re.sub(r'^-+|-+$', '', text)            # loại bỏ dấu '-' ở đầu hoặc cuối
+
+    return text
+
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny])
 def text_to_speech(request,filename):
@@ -23,7 +43,7 @@ def text_to_speech(request,filename):
     if request.method == 'POST':
         id = filename.replace(".mp3", "")
         chapter = NovelChapter.objects.filter(_id=id)
-        text = chapter.content
+        text = slugify_vietnamese(chapter.content)
         if not text:
             return HttpResponse(status=400, content='Missing text')
         if not os.path.exists(path):

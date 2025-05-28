@@ -44,7 +44,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${KONG_PG_USER} -d ${KONG_PG_DATABASE}"]
-      interval: 5s
+      interval: 15s
       timeout: 5s
       retries: 5
     networks:
@@ -95,7 +95,7 @@ services:
       - kong-net
     restart: unless-stopped
     volumes:
-      - ./kong-logs:/var/log/kong
+      # - ./kong-logs:/var/log/kong
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./kong/ssl:/etc/kong/ssl:ro
     logging:
@@ -134,7 +134,7 @@ services:
           - logging-service
     volumes:
       - ./kong-logs:/app/logs
-      - ./kong-service-logs:/app/service_logs
+      # - ./kong-service-logs:/app/service_logs
     logging:
       driver: json-file
       options:

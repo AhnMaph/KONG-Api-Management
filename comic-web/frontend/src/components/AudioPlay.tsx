@@ -6,58 +6,38 @@ import { audioText } from '../actions/audioAction';
 //Interface 
 const baseURL = 'http://localhost:8000'
 interface AudioPlayProps {
-    audioContent: string;
     audioTitle: string;
     nextAudio?: string|null;
     preAudio?: string|null;
 }
 
-const AudioPlay = ({audioContent, audioTitle}:AudioPlayProps) => {
+const AudioPlay = ({audioTitle}:AudioPlayProps) => {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [audioUrl, setAudioUrl] = useState<string>('');
-    // const navigate = useNavigate();
-    /* Tải hoặc tạo audio chỉ định */
+    /* Cập nhật audioUrl dựa vào title*/
     useEffect(()=>{
         const url = `${baseURL}/api/audio/tts/${audioTitle}/`;
         setAudioUrl(url);
+        if (audioRef.current) {
+            audioRef.current.load();  // Tải lại audio mỗi khi audioUrl thay đổi
+        }
         console.log("Audio title: ",`${baseURL}/api/audio/tts/${audioTitle}/`);
+        
     },[audioTitle])
+    /* Tải hoặc tạo audio chỉ định */
     const handleGenerateAudio = async () => {
     setIsLoading(true);
     try {
-        await audioText(audioContent, audioTitle);
-        // console.log("data audio nhận: ",response);
+        await audioText(audioTitle);
         console.log("Tải thành công audio!");
-        console.log("Audio title: ",`${baseURL}/api/audio/tts/${audioTitle}/`);
-        const url = `${baseURL}/api/audio/tts/${audioTitle}/`;
-        setAudioUrl(url);
     } catch (error) {
-      console.error("Error generating audio:", error);
+        console.error("Error generating audio:", error);
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
   };
-    // useEffect(() => {
-    //     const audio = audioRef.current;
-    //     if (!audio) return;
-
-    //     const handlePlay = () => setIsPlaying(true);
-    //     const handlePause = () => setIsPlaying(false);
-
-    //     audio.addEventListener("play", handlePlay);
-    //     audio.addEventListener("pause", handlePause);
-
-    //     return () => {
-    //     audio.removeEventListener("play", handlePlay);
-    //     audio.removeEventListener("pause", handlePause);
-    //     };
-    // }, []);
-    useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.load();  // Tải lại audio mỗi khi audioUrl thay đổi
-    }
-  }, [audioUrl]);
+    /* Rewind 10 giây trước */
     const rewind = () =>
     {
         const audio = audioRef.current;
@@ -66,6 +46,7 @@ const AudioPlay = ({audioContent, audioTitle}:AudioPlayProps) => {
             console.log("Time changed: ",audio.currentTime, audio.duration);
         }
     };
+    /* Forward 10 giây sau */
     const forward = () =>
     {
         const audio = audioRef.current;
@@ -76,14 +57,7 @@ const AudioPlay = ({audioContent, audioTitle}:AudioPlayProps) => {
         }
     };
 
-    /*  tiền xử lý content, xóa các ký tự thừa không phải là chữ số, dấu câu v.v */
-    useEffect(() => {
-        if (audioContent)
-        {
-            audioContent = audioContent.replace(/[^a-zA-ZÀ-Ỵà-ỵƠơƯưÂâÊêÔôĐđ.,!? ]/g, '').split(/(?<=[.!?])\s+/).toString();
-        }
-    }, [audioContent]);
-
+    
     return (
         <div className="bg-white p-4 rounded-xl shadow-md mt-10 space-y-4">
             <div className="space-x-4 space-y-4 ">
@@ -92,21 +66,14 @@ const AudioPlay = ({audioContent, audioTitle}:AudioPlayProps) => {
             </button>
                 <div className="flex flex-row gap-[8px] justify-center items-center">
                     {/* Control Button */}
-                    {/* <button onClick ={goToPrevious} className="rounded-[3px] hover:bg-white dark:hover:bg-gray-700">
-                        <FontAwesomeIcon icon = {faBackwardStep} />
-                    </button> */}
                     <button onClick={rewind} className="rounded-[3px] hover:bg-white dark:hover:bg-gray-700">
                         <FontAwesomeIcon icon = {faBackwardFast} />
                     </button>
                     <button onClick={forward} className="rounded-[3px] hover:bg-white dark:hover:bg-gray-700">
                         <FontAwesomeIcon icon = {faForwardFast} />
-                    </button>
-                    {/* <button onClick ={goToNext} className="rounded-[3px] hover:bg-white dark:hover:bg-gray-700">
-                        <FontAwesomeIcon icon = {faForwardStep} />
-                    </button> */}
-                
-                {/* Audio */} 
+                    </button> 
                 </div>
+                {/* Audio */}
                 <div className="w-full flex items-center justify-between px-4 py-2 space-x-4">
                     <audio controls src={audioUrl} ref={audioRef} className="w-full">
                    </audio>
@@ -116,5 +83,3 @@ const AudioPlay = ({audioContent, audioTitle}:AudioPlayProps) => {
     );
 }
 export default AudioPlay;
-
-{/* <script src="https://code.responsivevoice.org/responsivevoice.js?key=zzqcuKfu"></script> */}
