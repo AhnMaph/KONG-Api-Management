@@ -95,7 +95,7 @@ services:
       - kong-net
     restart: unless-stopped
     volumes:
-      # - ./kong-logs:/var/log/kong
+      - ./kong-logs:/var/log/kong
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./kong/ssl:/etc/kong/ssl:ro
     logging:
@@ -134,7 +134,7 @@ services:
           - logging-service
     volumes:
       - ./kong-logs:/app/logs
-      # - ./kong-service-logs:/app/service_logs
+      - ./kong-service-logs:/app/service_logs
     logging:
       driver: json-file
       options:
