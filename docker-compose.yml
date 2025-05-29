@@ -104,11 +104,37 @@ services:
         max-size: "10m"
         max-file: "3"
 
-  backend:
+  backend-1:
     build:
       context: ./comic-web/backend
       dockerfile: Dockerfile
-    container_name: django-backend
+    container_name: django-backend-1
+    networks:
+      - kong-net
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  backend-2:
+    build:
+      context: ./comic-web/backend
+      dockerfile: Dockerfile
+    container_name: django-backend-2
+    networks:
+      - kong-net
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  backend-3:
+    build:
+      context: ./comic-web/backend
+      dockerfile: Dockerfile
+    container_name: django-backend-3
     networks:
       - kong-net
     logging:

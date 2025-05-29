@@ -2,12 +2,24 @@ _format_version: "3.0"
 services:
 - connect_timeout: 60000
   enabled: true
-  host: django-backend
+  host: backend
   name: backend-service
   port: 8080
   protocol: http
   read_timeout: 60000
   retries: 5
+  load_balancer:
+    algorithm: round-robin
+    health_checks:
+      active:
+        type: http
+        http_path: /health
+        healthy:
+          interval: 30
+          successes: 2
+        unhealthy:
+          interval: 30
+          http_failures: 3
   routes:
   - https_redirect_status_code: 426
     name: django-backend-routes
