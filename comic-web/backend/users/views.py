@@ -48,6 +48,9 @@ class RegisterUserView(APIView):
         username = request.data.get("username")
         email = request.data.get("email")
         password = request.data.get("password")
+        print("username:", username)
+        print("email:", email)
+        print("password:", password)
         if not all([username, email, password]):
            return  Response({"error": "Username, email, and password are required"}, status=400)
         if User.objects.filter(username=username).exists():
@@ -138,7 +141,7 @@ class RefreshTokenView(APIView):
     def post(self, request):
         import jwt
         from jwt.exceptions import InvalidTokenError
-
+        print("Refresh token request received")
         refresh_token = request.COOKIES.get("refresh_token")
         if not refresh_token:
             return Response({"error": "No refresh token"}, status=401)

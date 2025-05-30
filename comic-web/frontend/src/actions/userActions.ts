@@ -5,7 +5,7 @@ import { login } from '../types/user/userSlice';
 import { CommentPayload } from '../types/user/User';
 const baseURL = 'http://localhost:8000'
     
-export const registerUser = async (name: string, email: string, password: string) => {
+export const registerUser = async (username: string, email: string, password: string) => {
     try {
         const config = {
             headers: { 'Content-Type': 'Application/json' },
@@ -13,7 +13,9 @@ export const registerUser = async (name: string, email: string, password: string
         }
         const response = await axios.post(
             `${baseURL}/api/register/`, 
-            {name, email, password }, // gửi thông tin user về backend
+            {username:username, 
+            email:email, 
+            password:password }, // gửi thông tin user về backend
             config
         );
 
