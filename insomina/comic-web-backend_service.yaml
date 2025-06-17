@@ -1,0 +1,1994 @@
+type: collection.insomnia.rest/5.0
+name: comic-web-backend-service
+meta:
+  id: wrk_8773301586b94a138236ba065d01d66f
+  created: 1748595390586
+  modified: 1748595390586
+collection:
+  - name: Manage-User
+    meta:
+      id: fld_7812f265afd54066aa4d0c7ddf14e837
+      created: 1748590773255
+      modified: 1748606482696
+      sortKey: -1748591143967
+    children:
+      - name: Routes
+        meta:
+          id: fld_262599d822ef492ea9f89b8f0aeb75f9
+          created: 1748590773255
+          modified: 1748606482696
+          sortKey: -1748486048255
+        children:
+          - name: Authentication
+            meta:
+              id: fld_15b5db548b4d4729868e2d8b1a23ddb7
+              created: 1748590773256
+              modified: 1748606482696
+              sortKey: -1747409516008
+            children:
+              - url: localhost:8001/services/comic-web-backend-service/routes
+                name: Logout
+                meta:
+                  id: req_e34b807fb742436f8b8c01fadab356b8
+                  created: 1748590773257
+                  modified: 1748590773257
+                  isPrivate: false
+                  description: Create route logout
+                  sortKey: -1747410738799
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "auth-logout",
+                    	"paths": [
+                    			"/api/logout/"
+                    	],
+                    	"methods": [
+                    			"POST"
+                    	],
+                    	"protocols": [
+                    			"http",
+                    			"https"
+                    	],
+                    	"strip_path" : false
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/services/comic-web-backend-service/routes
+                name: Login
+                meta:
+                  id: req_02d49b8d333d4ffcb1208bf99245eda1
+                  created: 1748590773258
+                  modified: 1748590773258
+                  isPrivate: false
+                  description: Create route login
+                  sortKey: -1747409856726.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "auth-login",
+                    	"paths": [
+                    			"/api/login/"
+                    	],
+                    	"methods": [
+                    			"POST"
+                    	],
+                    	"protocols": [
+                    			"http",
+                    			"https"
+                    	],
+                    	"strip_path" : false
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/services/comic-web-backend-service/routes
+                name: Register
+                meta:
+                  id: req_5d07eafd600e40a9897146297bc07df9
+                  created: 1748590773259
+                  modified: 1748590773259
+                  isPrivate: false
+                  description: Create route register
+                  sortKey: -1747410297762.75
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "auth-register",
+                    	"paths": [
+                    			"/api/register/"
+                    	],
+                    	"methods": [
+                    			"POST"
+                    	],
+                    	"protocols": [
+                    			"http",
+                    			"https"
+                    	],
+                    	"strip_path" : false
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/services/comic-web-backend-service/routes
+                name: Admin
+                meta:
+                  id: req_8745a9c443a04af6863797de33c706e7
+                  created: 1748590773260
+                  modified: 1748590773260
+                  isPrivate: false
+                  description: Create route admin
+                  sortKey: -1747409856626.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "auth-admin",
+                    	"paths": [
+                    			"/admin/"
+                    	],
+                    	"methods": [
+                    			"POST"
+                    	],
+                    	"protocols": [
+                    			"http",
+                    			"https"
+                    	],
+                    	"strip_path" : false
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/services/comic-web-backend-service/routes
+                name: Refresh Token
+                meta:
+                  id: req_c4cd3d8ecda149678ea9dc5a6ac87c4d
+                  created: 1748590773261
+                  modified: 1748590773261
+                  isPrivate: false
+                  description: Create route logout
+                  sortKey: -1747410518280.875
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "auth-refresh",
+                    	"paths": [
+                    			"/api/refresh/"
+                    	],
+                    	"methods": [
+                    			"POST"
+                    	],
+                    	"protocols": [
+                    			"http",
+                    			"https"
+                    	],
+                    	"strip_path" : false
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+          - name: User
+            meta:
+              id: fld_fbcecc62d4ad4a0493abfaee56aaf251
+              created: 1748590773263
+              modified: 1748606482696
+              sortKey: -1747587605066
+            children:
+              - url: localhost:8001/services/comic-web-backend-service/routes
+                name: Favorite
+                meta:
+                  id: req_8c7510b71313461ba29822ce33183f73
+                  created: 1748590773264
+                  modified: 1748590773264
+                  isPrivate: false
+                  sortKey: -1747587823741
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "user-favorite",
+                    	"paths": [
+                    			"/user/favorite/"
+                    	],
+                    	"methods": [
+                    			"GET",
+                    			"POST"
+                    	],
+                    	"protocols": [
+                    			"http",
+                    			"https"
+                    	],
+                    	"strip_path" : false
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/services/comic-web-backend-service/routes
+                name: Comment
+                meta:
+                  id: req_c2ed51b1c8604016b47aada7c4128a05
+                  created: 1748590773265
+                  modified: 1748590773265
+                  isPrivate: false
+                  sortKey: -1747585375891
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "user-comment",
+                    	"paths": [
+                    			"/user/comment/"
+                    	],
+                    	"methods": [
+                    			"GET",
+                    			"POST"
+                    	],
+                    	"protocols": [
+                    			"http",
+                    			"https"
+                    	],
+                    	"strip_path" : false
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/services/comic-web-backend-service/routes
+                name: Like
+                meta:
+                  id: req_e9303605387c4866a50c077cfefdef76
+                  created: 1748590773266
+                  modified: 1748590773266
+                  isPrivate: false
+                  sortKey: -1747584151966
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "user-like",
+                    	"paths": [
+                    			"/user/like/"
+                    	],
+                    	"methods": [
+                    			"GET",
+                    			"POST"
+                    	],
+                    	"protocols": [
+                    			"http",
+                    			"https"
+                    	],
+                    	"strip_path" : false
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/services/comic-web-backend-service/routes
+                name: Profile
+                meta:
+                  id: req_93091bdfcbb24dada70df3a12141f25e
+                  created: 1748590773268
+                  modified: 1748590773268
+                  isPrivate: false
+                  sortKey: -1747584151866
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "user-profile",
+                    	"paths": [
+                    			"/profile/"
+                    	],
+                    	"methods": [
+                    			"GET"
+                    	],
+                    	"protocols": [
+                    			"http",
+                    			"https"
+                    	],
+                    	"strip_path" : false
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/services/comic-web-backend-service/routes
+                name: Profile Update
+                meta:
+                  id: req_e763920ada7f419d89db19b4c4a22cf1
+                  created: 1748590773269
+                  modified: 1748590773269
+                  isPrivate: false
+                  sortKey: -1747583539953.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "user-profile-update",
+                    	"paths": [
+                    			"/profile/update"
+                    	],
+                    	"methods": [
+                    			"PUT",
+                    			"PATCH"
+                    	],
+                    	"protocols": [
+                    			"http",
+                    			"https"
+                    	],
+                    	"strip_path" : false
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+      - name: Plugins
+        meta:
+          id: fld_7ccf47c836774a6c841085d907fed5e1
+          created: 1748590773272
+          modified: 1748606482696
+          sortKey: -1748486048155
+        children:
+          - name: Authentication
+            meta:
+              id: fld_9cffe3161fd646b7af39f8c883f2a49f
+              created: 1748590773273
+              modified: 1748606482696
+              sortKey: -1747565440275
+            children:
+              - url: localhost:8001/routes/auth-login/plugins
+                name: Login - Rate Limiting
+                meta:
+                  id: req_b8d66503afa3434aabd768962f7db41e
+                  created: 1748590773275
+                  modified: 1748590773275
+                  isPrivate: false
+                  description: >-
+                    This limits the number of requests to prevent abuse (e.g.,
+                    brute-force login attempts).
+
+                    - minute=5 allows 5 requests per minute per consumer.
+
+                    - policy=local uses local memory for rate-limiting (use
+                    redis if you have Redis configured).
+                  sortKey: -1747559083409
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: rate-limiting
+                      disabled: false
+                      id: pair_9a1cb172df3449d38be9e89f7bbbd293
+                    - name: config.minute
+                      value: "5"
+                      disabled: false
+                      id: pair_1ac535bc4e8645c1b42076d6d8b74270
+                    - name: config.policy
+                      value: local
+                      disabled: false
+                      id: pair_6480acbbd6be41baa9fd8eea8334cfe7
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/auth-register/plugins
+                name: Register - Rate Limiting
+                meta:
+                  id: req_bdb0d3bf8b72498a90401591df4499ab
+                  created: 1748590773276
+                  modified: 1748590773276
+                  isPrivate: false
+                  description: >-
+                    This limits the number of requests to prevent abuse (e.g.,
+                    brute-force login attempts).
+
+                    - minute=5 allows 5 requests per minute per consumer.
+
+                    - policy=local uses local memory for rate-limiting (use
+                    redis if you have Redis configured).
+                  sortKey: -1747558982838.375
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: rate-limiting
+                      disabled: false
+                      id: pair_9a1cb172df3449d38be9e89f7bbbd293
+                    - name: config.minute
+                      value: "5"
+                      disabled: false
+                      id: pair_1ac535bc4e8645c1b42076d6d8b74270
+                    - name: config.policy
+                      value: local
+                      disabled: false
+                      id: pair_6480acbbd6be41baa9fd8eea8334cfe7
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/auth-refresh/plugins
+                name: Refresh - Token Rate Limiting
+                meta:
+                  id: req_9fc3f3ccd4fe4778bda90660982127bc
+                  created: 1748590773277
+                  modified: 1748590773277
+                  isPrivate: false
+                  description: >-
+                    This limits the number of requests to prevent abuse (e.g.,
+                    brute-force login attempts).
+
+                    - minute=5 allows 5 requests per minute per consumer.
+
+                    - policy=local uses local memory for rate-limiting (use
+                    redis if you have Redis configured).
+                  sortKey: -1747558781647.125
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: rate-limiting
+                      disabled: false
+                      id: pair_9a1cb172df3449d38be9e89f7bbbd293
+                    - name: config.minute
+                      value: "10"
+                      disabled: false
+                      id: pair_1ac535bc4e8645c1b42076d6d8b74270
+                    - name: config.policy
+                      value: local
+                      disabled: false
+                      id: pair_6480acbbd6be41baa9fd8eea8334cfe7
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+          - name: Key Auth
+            meta:
+              id: fld_304740be1488437b826f57d660b3fa20
+              created: 1748590773279
+              modified: 1748606482696
+              sortKey: -1747565440175
+            children:
+              - url: localhost:8001/routes/auth-admin/plugins
+                name: IP restriction for only host machine
+                meta:
+                  id: req_f2a8ba828edc4a588422ce0f432edb35
+                  created: 1748590773279
+                  modified: 1748590773279
+                  isPrivate: false
+                  description: Check IP to validate only host machine access /admin
+                  sortKey: -1747563175985
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                      "name": "ip-restriction",
+                      "config": {
+                        "allow": [
+                          "127.0.0.1",
+                          "172.18.0.1"
+                        ]
+                      }
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/auth-admin/plugins
+                name: Key Authentication to access /admin
+                meta:
+                  id: req_75ac6a2837494a3093e7d0e421b66f97
+                  created: 1748590773280
+                  modified: 1748590773280
+                  isPrivate: false
+                  description: Require apikey to access /admin
+                  sortKey: -1747582928041
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: key-auth
+                      disabled: false
+                      id: pair_61c7d34490fd41c6b63204c8c87400a9
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+          - name: Log
+            meta:
+              id: fld_b55b77e0462a4ba6b9c344f45754ddfb
+              created: 1748590773281
+              modified: 1748606482696
+              sortKey: -1747565440075
+            children:
+              - url: localhost:8001/routes/auth-login/plugins
+                name: Login
+                meta:
+                  id: req_9c4f563ad8544e878ae2201940301be4
+                  created: 1748590773282
+                  modified: 1748590773282
+                  isPrivate: false
+                  sortKey: -1747565504044
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                      "name": "http-log",
+                      "config": {
+                        "http_endpoint": "http://logging-service:8080/logs",
+                        "method": "POST",
+                        "timeout": 1000,
+                        "keepalive": 1000,
+                        "flush_timeout": 2,
+                        "retry_count": 15
+                      }
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/auth-register/plugins
+                name: Register
+                meta:
+                  id: req_c26875eeb6f74c1b818df68b0aae8cb0
+                  created: 1748590773283
+                  modified: 1748590773283
+                  isPrivate: false
+                  sortKey: -1747565504144
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                      "name": "http-log",
+                      "config": {
+                        "http_endpoint": "http://logging-service:8080/logs",
+                        "method": "POST",
+                        "timeout": 1000,
+                        "keepalive": 1000,
+                        "flush_timeout": 2,
+                        "retry_count": 15
+                      }
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/auth-admin/plugins
+                name: Admin
+                meta:
+                  id: req_6a02ca2f41434003be73f1457e83c300
+                  created: 1748590773284
+                  modified: 1748590773284
+                  isPrivate: false
+                  sortKey: -1747565488757.25
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                      "name": "http-log",
+                      "config": {
+                        "http_endpoint": "http://logging-service:8080/logs",
+                        "method": "POST",
+                        "timeout": 1000,
+                        "keepalive": 1000,
+                        "flush_timeout": 2,
+                        "retry_count": 15
+                      }
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+          - name: User
+            meta:
+              id: fld_097669f71fd54b72aa1221bf7faed07c
+              created: 1748590773284
+              modified: 1748606482696
+              sortKey: -1747617729367
+            children:
+              - url: localhost:8001/routes/user-profile/plugins
+                name: user profile - JWT
+                meta:
+                  id: req_7af9e218702d45828106042267f23d6a
+                  created: 1748590773285
+                  modified: 1748590773285
+                  isPrivate: false
+                  sortKey: -1747617746406
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: jwt
+                      disabled: false
+                      id: pair_11874aef0d2a400cb89a5dcc207d68de
+                    - name: config.key_claim_name
+                      value: iss
+                      disabled: false
+                      id: pair_c3f5a4460fb7401c9260b49bf49e5085
+                    - name: config.secret_is_base64
+                      value: "false"
+                      disabled: false
+                      id: pair_f5687acdd1444e1fa80e9287bd4ced88
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/user-profile/plugins
+                name: user profile - Rate Limiting
+                meta:
+                  id: req_72cdfffce77d4af385b5cf09409419e2
+                  created: 1748590773286
+                  modified: 1748590773286
+                  isPrivate: false
+                  sortKey: -1747604353361
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: rate-limiting
+                      disabled: false
+                      id: pair_11874aef0d2a400cb89a5dcc207d68de
+                    - name: config.minute
+                      value: "20"
+                      disabled: false
+                      id: pair_c3f5a4460fb7401c9260b49bf49e5085
+                    - name: config.policy
+                      value: local
+                      disabled: false
+                      id: pair_f5687acdd1444e1fa80e9287bd4ced88
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/user-profile-update/plugins
+                name: user profile update - JWT
+                meta:
+                  id: req_5903aef593084a98a460bfcd4335470a
+                  created: 1748590773287
+                  modified: 1748590773287
+                  isPrivate: false
+                  sortKey: -1747604353261
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: jwt
+                      disabled: false
+                      id: pair_11874aef0d2a400cb89a5dcc207d68de
+                    - name: config.key_claim_name
+                      value: iss
+                      disabled: false
+                      id: pair_c3f5a4460fb7401c9260b49bf49e5085
+                    - name: config.secret_is_base64
+                      value: "false"
+                      disabled: false
+                      id: pair_f5687acdd1444e1fa80e9287bd4ced88
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/user-profile-update/plugins
+                name: user profile update - Rate Limiting
+                meta:
+                  id: req_05b99cfa769c480e8a984b1efc6f4a24
+                  created: 1748590773288
+                  modified: 1748590773288
+                  isPrivate: false
+                  sortKey: -1747604353161
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: rate-limiting
+                      disabled: false
+                      id: pair_11874aef0d2a400cb89a5dcc207d68de
+                    - name: config.minute
+                      value: "10"
+                      disabled: false
+                      id: pair_c3f5a4460fb7401c9260b49bf49e5085
+                    - name: config.policy
+                      value: local
+                      disabled: false
+                      id: pair_f5687acdd1444e1fa80e9287bd4ced88
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/user-favorite/plugins
+                name: user favorite - Rate Limiting
+                meta:
+                  id: req_f31e49fc216748468be0668eefd2ba62
+                  created: 1748590773290
+                  modified: 1748590773290
+                  isPrivate: false
+                  sortKey: -1747604353061
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: rate-limiting
+                      disabled: false
+                      id: pair_11874aef0d2a400cb89a5dcc207d68de
+                    - name: config.minute
+                      value: "20"
+                      disabled: false
+                      id: pair_c3f5a4460fb7401c9260b49bf49e5085
+                    - name: config.policy
+                      value: local
+                      disabled: false
+                      id: pair_f5687acdd1444e1fa80e9287bd4ced88
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/user-favorite/plugins
+                name: user favorite - JWT
+                meta:
+                  id: req_0dfe8afd212f4867a4ec6d7bbc7a4308
+                  created: 1748590773291
+                  modified: 1748590773291
+                  isPrivate: false
+                  sortKey: -1747604353111
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: jwt
+                      disabled: false
+                      id: pair_11874aef0d2a400cb89a5dcc207d68de
+                    - name: config.key_claim_name
+                      value: iss
+                      disabled: false
+                      id: pair_c3f5a4460fb7401c9260b49bf49e5085
+                    - name: config.secret_is_base64
+                      value: "false"
+                      disabled: false
+                      id: pair_f5687acdd1444e1fa80e9287bd4ced88
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/user-comment/plugins
+                name: user comment - JWT
+                meta:
+                  id: req_66fccd03083a48219349986aa980ff06
+                  created: 1748590773292
+                  modified: 1748590773292
+                  isPrivate: false
+                  sortKey: -1747604353036
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: jwt
+                      disabled: false
+                      id: pair_11874aef0d2a400cb89a5dcc207d68de
+                    - name: config.key_claim_name
+                      value: iss
+                      disabled: false
+                      id: pair_c3f5a4460fb7401c9260b49bf49e5085
+                    - name: config.secret_is_base64
+                      value: "false"
+                      disabled: false
+                      id: pair_f5687acdd1444e1fa80e9287bd4ced88
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/user-comment/plugins
+                name: user comment - Rate Limiting
+                meta:
+                  id: req_c628626147824ab8adf3c830c4365572
+                  created: 1748590773293
+                  modified: 1748590773293
+                  isPrivate: false
+                  sortKey: -1747604353011
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: rate-limiting
+                      disabled: false
+                      id: pair_11874aef0d2a400cb89a5dcc207d68de
+                    - name: config.minute
+                      value: "20"
+                      disabled: false
+                      id: pair_c3f5a4460fb7401c9260b49bf49e5085
+                    - name: config.policy
+                      value: local
+                      disabled: false
+                      id: pair_f5687acdd1444e1fa80e9287bd4ced88
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/user-like/plugins
+                name: user like - JWT
+                meta:
+                  id: req_04570b0881374a32a0ebbe0f57eeccb3
+                  created: 1748590773294
+                  modified: 1748590773294
+                  isPrivate: false
+                  sortKey: -1747604352911
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: jwt
+                      disabled: false
+                      id: pair_11874aef0d2a400cb89a5dcc207d68de
+                    - name: config.key_claim_name
+                      value: iss
+                      disabled: false
+                      id: pair_c3f5a4460fb7401c9260b49bf49e5085
+                    - name: config.secret_is_base64
+                      value: "false"
+                      disabled: false
+                      id: pair_f5687acdd1444e1fa80e9287bd4ced88
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: localhost:8001/routes/user-like/plugins
+                name: user like - Rate Limiting
+                meta:
+                  id: req_da171e5b9df04b61a04aa30e141fa425
+                  created: 1748590773297
+                  modified: 1748590773297
+                  isPrivate: false
+                  sortKey: -1747604352811
+                method: POST
+                body:
+                  mimeType: multipart/form-data
+                  params:
+                    - name: name
+                      value: rate-limiting
+                      disabled: false
+                      id: pair_11874aef0d2a400cb89a5dcc207d68de
+                    - name: config.minute
+                      value: "20"
+                      disabled: false
+                      id: pair_c3f5a4460fb7401c9260b49bf49e5085
+                    - name: config.policy
+                      value: local
+                      disabled: false
+                      id: pair_f5687acdd1444e1fa80e9287bd4ced88
+                headers:
+                  - name: Content-Type
+                    value: multipart/form-data
+                  - name: User-Agent
+                    value: insomnia/11.1.0
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+  - name: Novel
+    meta:
+      id: fld_33cdd476f7fc40d6b5764f99f4048ca0
+      created: 1748590773298
+      modified: 1748606482696
+      sortKey: -1748486526718
+    children:
+      - name: Routes
+        meta:
+          id: fld_78c09b8a52174b448bdc0d73fbfa15ab
+          created: 1748590773299
+          modified: 1748606482696
+          sortKey: -1748486347450
+        children:
+          - url: http://localhost:8001/services/comic-web-backend-service/routes
+            name: Create novel route
+            meta:
+              id: req_59c0e36e2c9a4a52aec62e3218adb3a0
+              created: 1748590773300
+              modified: 1748590773300
+              isPrivate: false
+              sortKey: -1747578603351
+            method: POST
+            body:
+              mimeType: application/json
+              text: |
+                {
+                	"name": "novel-route",
+                	"paths": [
+                			"/api/novel/"
+                	],
+                	"methods": [
+                			"GET",
+                			"POST"
+                	],
+                	"protocols": [
+                			"http",
+                			"https"
+                	],
+                	"strip_path" : false
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Plugins
+        meta:
+          id: fld_aa4b7907ed4d438cad6cc7e2c6296958
+          created: 1748590773301
+          modified: 1748606482696
+          sortKey: -1748486347350
+        children:
+          - url: http://localhost:8001/routes/novel-route/plugins
+            name: Add rate limit plugin
+            meta:
+              id: req_0348a361558b48df9243973224c1e8f0
+              created: 1748590773302
+              modified: 1748590773302
+              isPrivate: false
+              sortKey: -1747578551631
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "rate-limiting",
+                  "config": {
+                    "minute": 50,
+                		"hour":1000,
+                    "policy": "local"
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8001/routes/novel-route/plugins
+            name: Add Bot detect plugin
+            meta:
+              id: req_45a484ce81fb4331a5f223037c06bc45
+              created: 1748590773303
+              modified: 1748590773303
+              isPrivate: false
+              sortKey: -1747578551731
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "bot-detection"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: " http://localhost:8001/routes/novel-route/plugins"
+            name: Add Proxy cache plugin
+            meta:
+              id: req_80dfe4d1ef7e4e10b24c445f17f5ca77
+              created: 1748590773304
+              modified: 1748590773304
+              isPrivate: false
+              sortKey: -1747579024706
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "proxy-cache",
+                    "config": {
+                      "request_method": ["GET"],
+                      "response_code": [200,201],
+                      "content_type": ["application/json"],
+                      "cache_ttl": 60,
+                      "strategy": "memory"
+                    }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: " http://localhost:8001/routes/novel-route/plugins"
+            name: Add ACL plugin
+            meta:
+              id: req_9b186af5067841dca45f78c99b412d48
+              created: 1748590773304
+              modified: 1748590773304
+              isPrivate: false
+              sortKey: -1747637539828
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name":"acl",
+                	"config": {
+                		"allow":["vip","admin"]
+                	}
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8001/routes/novel-route/plugins
+            name: Add jwt plugin
+            meta:
+              id: req_c738f919e8d64cebbc44bc253484659a
+              created: 1748590773306
+              modified: 1748590773306
+              isPrivate: false
+              sortKey: -1747638514351
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name":"jwt",
+                	"config":{
+                		"cookie_names":["access_token"]
+                	}
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8001/routes/novel-route/plugins
+            name: Logs
+            meta:
+              id: req_39d521f1f1a740f4bd786122e89fedd4
+              created: 1748590773308
+              modified: 1748590773308
+              isPrivate: false
+              sortKey: -1747572027937.5
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "file-log",
+                  "config": {
+                    "path": "/var/log/kong/novel.log",
+                    "reopen": true
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: Media
+    meta:
+      id: fld_f5526f62ae134ac1951ace64b8eac1bb
+      created: 1748590773319
+      modified: 1748606482696
+      sortKey: -1748486503585
+    children:
+      - name: Routes
+        meta:
+          id: fld_ec6b0b72f4ea4739a3fd5a7ddff7e498
+          created: 1748590773319
+          modified: 1748606482696
+          sortKey: -1748486445278
+        children:
+          - url: http://localhost:8001/services/comic-web-backend-service/routes
+            name: Create media route
+            meta:
+              id: req_fa71535306f9452c90d73a5a99c22731
+              created: 1748590773320
+              modified: 1748590773320
+              isPrivate: false
+              sortKey: -1747579977249
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "media-route",
+                	"paths": [
+                			"/media/"
+                	],
+                	"methods": [
+                			"GET",
+                			"POST"
+                	],
+                	"protocols": [
+                			"http",
+                			"https"
+                	],
+                	"strip_path" : false
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Plugins
+        meta:
+          id: fld_ceb059fe0da7471695cbeac80bd8cfa0
+          created: 1748590773324
+          modified: 1748606482696
+          sortKey: -1748486445178
+        children:
+          - url: " http://localhost:8001/routes/media-route/plugins"
+            name: add proxy cache
+            meta:
+              id: req_a59d1994dd91419fa9bbdb317071fae6
+              created: 1748590773325
+              modified: 1748590773325
+              isPrivate: false
+              sortKey: -1748248589163
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "proxy-cache",
+                    "config": {
+                      "request_method": ["GET"],
+                      "response_code": [200,201],
+                      "content_type": ["image/jpeg"],
+                      "cache_ttl": 60,
+                      "strategy": "memory"
+                    }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8001/routes/media-route/plugins
+            name: Add bot detection
+            meta:
+              id: req_c02576925664490abc16b3ed02779097
+              created: 1748590773325
+              modified: 1748590773325
+              isPrivate: false
+              sortKey: -1748248589263
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "bot-detection"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8001/routes/media-route/plugins
+            name: Logs
+            meta:
+              id: req_e8436bb3a3b74c7a84621cd5a400183d
+              created: 1748590773326
+              modified: 1748590773326
+              isPrivate: false
+              sortKey: -1748248589063
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "file-log",
+                  "config": {
+                    "path": "/var/log/kong/media.log",
+                    "reopen": true
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: Manga
+    meta:
+      id: fld_3bba497e19aa46ce9f42cbf82393f74a
+      created: 1748590773327
+      modified: 1748606482696
+      sortKey: -1748486526693
+    children:
+      - name: Routes
+        meta:
+          id: fld_cd455b0726c34560b95c9ff99e03b4e6
+          created: 1748590773328
+          modified: 1748606482696
+          sortKey: -1748486541024
+        children:
+          - url: http://localhost:8001/services/comic-web-backend-service/routes
+            name: Create manga route
+            meta:
+              id: req_4de47a2e384147b38979c834d935e21a
+              created: 1748590773329
+              modified: 1748590773329
+              isPrivate: false
+              sortKey: -1747579001709
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name":"manga-route",
+                	"paths": ["/api/manga"],
+                   "strip_path": false
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Plugins
+        meta:
+          id: fld_132650ccd0704f938ca1f86a1e2dadb7
+          created: 1748590773330
+          modified: 1748606482696
+          sortKey: -1748486540924
+        children:
+          - url: http://localhost:8001/routes/manga-route/plugins
+            name: Add bot detect plugin
+            meta:
+              id: req_5eab3c7158204aaf8221c744e6741758
+              created: 1748590773331
+              modified: 1748590773331
+              isPrivate: false
+              sortKey: -1748483234370
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "bot-detection"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8001/routes/manga-route/plugins
+            name: Add rate limit plugin
+            meta:
+              id: req_6a0a89f3b03846fca6c681f7256f0759
+              created: 1748590773331
+              modified: 1748590773331
+              isPrivate: false
+              sortKey: -1748483234470
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "rate-limiting",
+                  "config": {
+                    "minute": 50,
+                		"hour":1000,
+                    "policy": "local"
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: " http://localhost:8001/routes/manga-route/plugins"
+            name: Add proxy cache
+            meta:
+              id: req_c307cadf7f44404abaf0f1d9df1c4f7e
+              created: 1748590773332
+              modified: 1748590773332
+              isPrivate: false
+              sortKey: -1748483234270
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "proxy-cache",
+                    "config": {
+                      "request_method": ["GET"],
+                      "response_code": [200,201],
+                      "content_type": ["application/json"],
+                      "cache_ttl": 60,
+                      "strategy": "memory"
+                    }
+                }
+            parameters:
+              - disabled: false
+                id: pair_e4dce90d2c524391b9b47071ffa05a13
+              - disabled: false
+                id: pair_ca01b7dc82fb40b296ddb0c96c9513e0
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: Audio
+    meta:
+      id: fld_06c13038a55a45e9bbcf044a6b9c205f
+      created: 1748591143867
+      modified: 1748606482696
+      sortKey: -1748486480477
+    children:
+      - name: Routes
+        meta:
+          id: fld_18981e472fc34fc1a609fea851b53068
+          created: 1747645281094
+          modified: 1748606482696
+          sortKey: -1748591152347
+        children:
+          - url: http://localhost:8001/services/comic-web-backend-service/routes
+            name: AudioPost
+            meta:
+              id: req_b8cde848d1bf43f3af70ddad3d4412a6
+              created: 1747645490244
+              modified: 1748591268304
+              isPrivate: false
+              sortKey: -1747645981406
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "tts-post-route",
+                	"paths": [
+                			"/api/audio/tts/"
+                	],
+                	"methods": [
+                			"POST"
+                	],
+                	"protocols": [
+                			"http",
+                			"https"
+                	],
+                	"strip_path" : false
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8001/services/comic-web-backend-service/routes
+            name: AudioGet
+            meta:
+              id: req_035e8f82d6dd45b992697a2bee4facaf
+              created: 1747646005278
+              modified: 1748591263360
+              isPrivate: false
+              sortKey: -1747646005278
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "tts-get-route",
+                	"paths": [
+                			"/api/audio/tts/"
+                	],
+                	"methods": [
+                			"GET"
+                	],
+                	"protocols": [
+                			"http",
+                			"https"
+                	],
+                	"strip_path" : false
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Plugins
+        meta:
+          id: fld_53b7d26bad684f80a6d02a28a5c8d00b
+          created: 1747646386808
+          modified: 1748606482696
+          sortKey: -1748591152247
+        children:
+          - url: http://localhost:8001/routes/tts-post-route/plugins
+            name: Rate Limiting
+            meta:
+              id: req_e6339d304a5f4299a9e927e393a7a1df
+              created: 1747646389213
+              modified: 1748263000613
+              isPrivate: false
+              sortKey: -1747646389213
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "rate-limiting",
+                  "config": {
+                    "minute": 100,
+                		"hour": 1000,
+                    "policy": "local",
+                    "limit_by": "ip"
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8001/routes/tts-get-route/plugins
+            name: Proxy Cache
+            meta:
+              id: req_f2867c073c054314b52d920bc25f201b
+              created: 1747646750415
+              modified: 1748247785708
+              isPrivate: false
+              sortKey: -1747646750415
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name" : "proxy-cache",
+                	"config" :{
+                		"strategy" :"memory",
+                		"cache_ttl" : 600
+                	}
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8001/routes/tts-post-route/plugins
+            name: Bot Detection-Post
+            meta:
+              id: req_cab9f11919ca46acb89d542d53aa9c52
+              created: 1747647162223
+              modified: 1748247785708
+              isPrivate: false
+              sortKey: -1747647162223
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "bot-detection",
+                    "config": {
+                      "deny": [
+                        "curl/*",
+                        "Wget/*",
+                        "python-requests/*",
+                        "libwww-perl/*",
+                        "scrapy/*"
+                      ]
+                    }
+                }
+            parameters:
+              - disabled: false
+                id: pair_3b4bf8fc5a694c2999b5301e8df7d110
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8001/routes/tts-get-route/plugins
+            name: Bot Detection-Get
+            meta:
+              id: req_343c0be3f97643d18b70e4da7872e660
+              created: 1747647460846
+              modified: 1748247785708
+              isPrivate: false
+              sortKey: -1747646956319
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "bot-detection",
+                    "config": {
+                      "deny": [
+                        "curl/*",
+                        "Wget/*",
+                        "python-requests/*",
+                        "libwww-perl/*",
+                        "scrapy/*"
+                      ]
+                    }
+                }
+            parameters:
+              - disabled: false
+                id: pair_3b4bf8fc5a694c2999b5301e8df7d110
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8001/routes/tts-post-route/plugins
+            name: Logs
+            meta:
+              id: req_bb8b1e732bbf4d34a91cf2451f853775
+              created: 1748270077527
+              modified: 1748270085801
+              isPrivate: false
+              sortKey: -1747646197245.5
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "file-log",
+                  "config": {
+                    "path": "/var/log/kong/tts.log",
+                    "reopen": true
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_c6572af8986f43a89aa443096516b5e1
+    created: 1748590773254
+    modified: 1748590773254
+environments:
+  name: Base Environment
+  meta:
+    id: env_69a4de92876346f281f1a2785a0be999
+    created: 1748590773253
+    modified: 1748606482696
+    isPrivate: false

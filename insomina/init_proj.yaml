@@ -1,0 +1,334 @@
+type: collection.insomnia.rest/5.0
+name: Init project
+meta:
+  id: wrk_680d5a807d6844a8941e053df60ec4a0
+  created: 1747452197147
+  modified: 1747452197147
+collection:
+  - name: comic-web
+    meta:
+      id: fld_18b7dad7a88e41cd925ca86e63bf4f30
+      created: 1747452211867
+      modified: 1748481664452
+      sortKey: -1747452211867
+    children:
+      - name: Routes
+        meta:
+          id: fld_7773933d779c4c3fb54e2780308e2933
+          created: 1748596893646
+          modified: 1748599634060
+          sortKey: -1748596934577.25
+        children:
+          - url: localhost:8001/services/comic-web-backend-service/routes
+            name: Create route for comic-web-backend-service
+            meta:
+              id: req_d9b9934762d946e8ba8f7e66d6a93bc2
+              created: 1747452284511
+              modified: 1748599600713
+              isPrivate: false
+              sortKey: -1748596995421
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "comic-web-django-backend-routes",
+                  "paths": [
+                    "/"
+                  ],
+                  "strip_path": true
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Plugins
+        meta:
+          id: fld_1fb0f12251ea48f0976a9dd3d600b80b
+          created: 1748596899319
+          modified: 1748599632272
+          sortKey: -1748596934558.5
+        children:
+          - url: localhost:8001/plugins
+            name: Create prometheus
+            meta:
+              id: req_e3f10df1a1cf493f8ca854b0f075d549
+              created: 1748418691092
+              modified: 1748599600713
+              isPrivate: false
+              sortKey: -1748596991594
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "prometheus",
+                	"config": {
+                    "bandwidth_metrics": true,
+                    "upstream_health_metrics": true,
+                    "latency_metrics": true,
+                    "per_consumer": true,
+                    "status_code_metrics": true
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: localhost:8001/plugins
+            name: Create CORS
+            meta:
+              id: req_ab1e80520cb34b0f8cdbca0f4faedbed
+              created: 1748597005045
+              modified: 1748599600713
+              isPrivate: false
+              sortKey: -1748597005045
+            method: POST
+            body:
+              mimeType: application/json
+              text: >
+                {
+                  "name": "cors",
+                  "config": {
+                    "origins": ["http://localhost:5174"],
+                    "methods": ["GET", "POST","OPTIONS"],
+                    "headers": ["Accept", "Authorization", "Content-Type", "Origin", "X-Requested-With"],
+                    "exposed_headers": ["X-Custom-Header"],
+                    "credentials": true,
+                    "max_age": 3600,
+                    "preflight_continue": false
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Services
+        meta:
+          id: fld_eea3aa304d024c90b012faccc6a2d18d
+          created: 1748596911036
+          modified: 1748599600713
+          sortKey: -1748596934596
+        children:
+          - url: localhost:8001/services
+            name: Create comic-web-backend-service
+            meta:
+              id: req_848c4fe35d604869b5f6596d651414d5
+              created: 1747452214528
+              modified: 1748599600713
+              isPrivate: false
+              sortKey: -1748596976394
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "comic-web-backend-service",
+                	"host": "comic-web_upstream",
+                	"port": 8080
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Targets
+        meta:
+          id: fld_5b907bca8fe84448983b649a4f7d990a
+          created: 1748596919340
+          modified: 1748599617626
+          sortKey: -1748596934646
+        children:
+          - url: localhost:8001/upstreams/comic-web_upstream/targets
+            name: Create target 1 for comic-web_upstream
+            meta:
+              id: req_9a911adb15534ad99f929cd29fda2545
+              created: 1748480426746
+              modified: 1748599600713
+              isPrivate: false
+              sortKey: -1748596961002
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "target": "django-backend-1:8080",
+                    "weight": 100
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: localhost:8001/upstreams/comic-web_upstream/targets
+            name: Create target 2 for comic-web_upstream
+            meta:
+              id: req_3e0d2291024a4608b2ca24fbf8cb078f
+              created: 1748483328326
+              modified: 1748599600713
+              isPrivate: false
+              sortKey: -1748596961102
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "target": "django-backend-2:8080",
+                    "weight": 100
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: localhost:8001/upstreams/comic-web_upstream/targets
+            name: Create target 3 for comic-web_upstream
+            meta:
+              id: req_c7d0989cd195496f947c66bf80171edb
+              created: 1748483331192
+              modified: 1748599600713
+              isPrivate: false
+              sortKey: -1748596961202
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "target": "django-backend-3:8080",
+                    "weight": 100
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Upstream
+        meta:
+          id: fld_0844c086fe8d4fe49a46b0486f7a4029
+          created: 1748596934146
+          modified: 1748599614013
+          sortKey: -1748596934696
+        children:
+          - url: localhost:8001/upstreams
+            name: Create comic-web_upstream
+            meta:
+              id: req_66a59ebaf64944f488613bcdf7aaf335
+              created: 1748480285157
+              modified: 1748603860010
+              isPrivate: false
+              sortKey: -1748596947387
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "comic-web_upstream",
+                  "algorithm": "round-robin",
+                	"hash_on": "header",
+                  "hash_on_header": "X-Session-ID",
+                  "healthchecks": {
+                    "active": {
+                      "type": "http",
+                      "http_path": "/health",
+                      "timeout": 1,
+                      "concurrency": 10,
+                      "healthy": {
+                        "http_statuses": [200],
+                        "interval": 10,
+                        "successes": 2
+                      },
+                      "unhealthy": {
+                        "http_statuses": [429, 500, 502, 503, 504],
+                        "interval": 10,
+                        "http_failures": 3,
+                        "tcp_failures": 3,
+                        "timeouts": 1
+                      }
+                    }
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.1.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_0977be0e23784bf81befe6c1ec5de8f1657fc912
+    created: 1747452197157
+    modified: 1747452197157
+environments:
+  name: Base Environment
+  meta:
+    id: env_0977be0e23784bf81befe6c1ec5de8f1657fc912
+    created: 1747452197155
+    modified: 1747452197155
+    isPrivate: false
