@@ -4,7 +4,7 @@ This project implements a comprehensive API management system using Kong API Gat
 
 ## Team Members
 - **Doan Duc Anh** 
-- **Nguyen Thanh An**
+- **Pham Thanh An**
 - **Nguyen Van Hung** 
 
 ## Features
