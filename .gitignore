@@ -4,11 +4,11 @@
 # .dockerignore
 
 # Secrets
-POSTGRES_PASSWORD
-*.env
-secrets/
-ssl/
-
+# POSTGRES_PASSWORD
+# *.env
+# secrets/
+# ssl/
+CHANGELOG.md
 # Database files
 postgres_data/
 

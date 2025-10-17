@@ -30,7 +30,7 @@ up:
 	docker compose up --build
 
 down:
-	docker compose down
+	docker compose down -v
 
 reset:
 	docker volume rm $(shell docker volume ls -q | grep postgres_data) || true

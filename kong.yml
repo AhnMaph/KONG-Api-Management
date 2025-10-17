@@ -1,0 +1,1198 @@
+_format_version: "3.0"
+plugins:
+- config:
+    credentials: true
+    exposed_headers:
+    - X-Custom-Header
+    headers:
+    - Accept
+    - Authorization
+    - Content-Type
+    - Origin
+    - X-Requested-With
+    max_age: 3600
+    methods:
+    - GET
+    - POST
+    - OPTIONS
+    origins:
+    - http://localhost:5174
+    preflight_continue: false
+    private_network: false
+  enabled: true
+  name: cors
+  protocols:
+  - grpc
+  - grpcs
+  - http
+  - https
+- config:
+    ai_metrics: false
+    bandwidth_metrics: true
+    latency_metrics: true
+    per_consumer: true
+    status_code_metrics: true
+    upstream_health_metrics: true
+  enabled: true
+  name: prometheus
+  protocols:
+  - grpc
+  - grpcs
+  - http
+  - https
+services:
+- connect_timeout: 60000
+  enabled: true
+  host: comic-web_upstream
+  name: comic-web-backend-service
+  port: 8080
+  protocol: http
+  read_timeout: 60000
+  retries: 5
+  routes:
+  - https_redirect_status_code: 426
+    name: comic-web-django-backend-routes
+    path_handling: v0
+    paths:
+    - /
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: true
+  write_timeout: 60000
+- connect_timeout: 60000
+  enabled: true
+  host: comic-web_upstream
+  name: comic-web-backend-service-1
+  port: 8080
+  protocol: http
+  read_timeout: 60000
+  retries: 5
+  routes:
+  - https_redirect_status_code: 426
+    methods:
+    - POST
+    name: auth-admin
+    path_handling: v0
+    paths:
+    - /admin/
+    plugins:
+    - config:
+        content_type: application/json
+        custom_fields_by_lua: null
+        flush_timeout: 2
+        headers: null
+        http_endpoint: http://logging-service:8080/logs
+        keepalive: 1000
+        method: POST
+        queue:
+          concurrency_limit: 1
+          initial_retry_delay: 0.01
+          max_batch_size: 1
+          max_bytes: null
+          max_coalescing_delay: 1
+          max_entries: 10000
+          max_retry_delay: 60
+          max_retry_time: 60
+        queue_size: null
+        retry_count: 15
+        timeout: 1000
+      enabled: true
+      name: http-log
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        allow:
+        - 127.0.0.1
+        - 172.18.0.1
+        deny: null
+        message: null
+        status: null
+      enabled: true
+      name: ip-restriction
+      protocols:
+      - http
+      - https
+      - tcp
+      - tls
+      - grpc
+      - grpcs
+    - config:
+        anonymous: null
+        hide_credentials: false
+        key_in_body: false
+        key_in_header: true
+        key_in_query: true
+        key_names:
+        - apikey
+        realm: null
+        run_on_preflight: true
+      enabled: true
+      name: key-auth
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  - https_redirect_status_code: 426
+    methods:
+    - POST
+    name: auth-login
+    path_handling: v0
+    paths:
+    - /api/login/
+    plugins:
+    - config:
+        content_type: application/json
+        custom_fields_by_lua: null
+        flush_timeout: 2
+        headers: null
+        http_endpoint: http://logging-service:8080/logs
+        keepalive: 1000
+        method: POST
+        queue:
+          concurrency_limit: 1
+          initial_retry_delay: 0.01
+          max_batch_size: 1
+          max_bytes: null
+          max_coalescing_delay: 1
+          max_entries: 10000
+          max_retry_delay: 60
+          max_retry_time: 60
+        queue_size: null
+        retry_count: 15
+        timeout: 1000
+      enabled: true
+      name: http-log
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        day: null
+        error_code: 429
+        error_message: API rate limit exceeded
+        fault_tolerant: true
+        header_name: null
+        hide_client_headers: false
+        hour: null
+        limit_by: consumer
+        minute: 5
+        month: null
+        path: null
+        policy: local
+        redis:
+          database: 0
+          host: null
+          password: null
+          port: 6379
+          server_name: null
+          ssl: false
+          ssl_verify: false
+          timeout: 2000
+          username: null
+        redis_database: 0
+        redis_host: null
+        redis_password: null
+        redis_port: 6379
+        redis_server_name: null
+        redis_ssl: false
+        redis_ssl_verify: false
+        redis_timeout: 2000
+        redis_username: null
+        second: null
+        sync_rate: -1
+        year: null
+      enabled: true
+      name: rate-limiting
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  - https_redirect_status_code: 426
+    methods:
+    - POST
+    name: auth-logout
+    path_handling: v0
+    paths:
+    - /api/logout/
+    plugins:
+    - config:
+        anonymous: null
+        claims_to_verify: null
+        cookie_names: []
+        header_names:
+        - authorization
+        key_claim_name: iss
+        maximum_expiration: 0
+        realm: null
+        run_on_preflight: true
+        secret_is_base64: false
+        uri_param_names:
+        - jwt
+      enabled: true
+      name: jwt
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  - https_redirect_status_code: 426
+    methods:
+    - POST
+    name: auth-refresh
+    path_handling: v0
+    paths:
+    - /api/refresh/
+    plugins:
+    - config:
+        anonymous: null
+        claims_to_verify: null
+        cookie_names: []
+        header_names:
+        - authorization
+        key_claim_name: iss
+        maximum_expiration: 0
+        realm: null
+        run_on_preflight: true
+        secret_is_base64: false
+        uri_param_names:
+        - jwt
+      enabled: true
+      name: jwt
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        day: null
+        error_code: 429
+        error_message: API rate limit exceeded
+        fault_tolerant: true
+        header_name: null
+        hide_client_headers: false
+        hour: null
+        limit_by: consumer
+        minute: 10
+        month: null
+        path: null
+        policy: local
+        redis:
+          database: 0
+          host: null
+          password: null
+          port: 6379
+          server_name: null
+          ssl: false
+          ssl_verify: false
+          timeout: 2000
+          username: null
+        redis_database: 0
+        redis_host: null
+        redis_password: null
+        redis_port: 6379
+        redis_server_name: null
+        redis_ssl: false
+        redis_ssl_verify: false
+        redis_timeout: 2000
+        redis_username: null
+        second: null
+        sync_rate: -1
+        year: null
+      enabled: true
+      name: rate-limiting
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  - https_redirect_status_code: 426
+    methods:
+    - POST
+    name: auth-register
+    path_handling: v0
+    paths:
+    - /api/register/
+    plugins:
+    - config:
+        content_type: application/json
+        custom_fields_by_lua: null
+        flush_timeout: 2
+        headers: null
+        http_endpoint: http://logging-service:8080/logs
+        keepalive: 1000
+        method: POST
+        queue:
+          concurrency_limit: 1
+          initial_retry_delay: 0.01
+          max_batch_size: 1
+          max_bytes: null
+          max_coalescing_delay: 1
+          max_entries: 10000
+          max_retry_delay: 60
+          max_retry_time: 60
+        queue_size: null
+        retry_count: 15
+        timeout: 1000
+      enabled: true
+      name: http-log
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        day: null
+        error_code: 429
+        error_message: API rate limit exceeded
+        fault_tolerant: true
+        header_name: null
+        hide_client_headers: false
+        hour: null
+        limit_by: consumer
+        minute: 5
+        month: null
+        path: null
+        policy: local
+        redis:
+          database: 0
+          host: null
+          password: null
+          port: 6379
+          server_name: null
+          ssl: false
+          ssl_verify: false
+          timeout: 2000
+          username: null
+        redis_database: 0
+        redis_host: null
+        redis_password: null
+        redis_port: 6379
+        redis_server_name: null
+        redis_ssl: false
+        redis_ssl_verify: false
+        redis_timeout: 2000
+        redis_username: null
+        second: null
+        sync_rate: -1
+        year: null
+      enabled: true
+      name: rate-limiting
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  - https_redirect_status_code: 426
+    name: comic-web-django-backend-routes-1
+    path_handling: v0
+    paths:
+    - /
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: true
+  - https_redirect_status_code: 426
+    name: manga-route
+    path_handling: v0
+    paths:
+    - /api/manga
+    plugins:
+    - config:
+        allow: []
+        deny: []
+      enabled: true
+      name: bot-detection
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        cache_control: false
+        cache_ttl: 60
+        content_type:
+        - application/json
+        ignore_uri_case: false
+        memory:
+          dictionary_name: kong_db_cache
+        request_method:
+        - GET
+        response_code:
+        - 200
+        - 201
+        response_headers:
+          X-Cache-Key: true
+          X-Cache-Status: true
+          age: true
+        storage_ttl: null
+        strategy: memory
+        vary_headers: null
+        vary_query_params: null
+      enabled: true
+      name: proxy-cache
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        day: null
+        error_code: 429
+        error_message: API rate limit exceeded
+        fault_tolerant: true
+        header_name: null
+        hide_client_headers: false
+        hour: 1000
+        limit_by: consumer
+        minute: 50
+        month: null
+        path: null
+        policy: local
+        redis:
+          database: 0
+          host: null
+          password: null
+          port: 6379
+          server_name: null
+          ssl: false
+          ssl_verify: false
+          timeout: 2000
+          username: null
+        redis_database: 0
+        redis_host: null
+        redis_password: null
+        redis_port: 6379
+        redis_server_name: null
+        redis_ssl: false
+        redis_ssl_verify: false
+        redis_timeout: 2000
+        redis_username: null
+        second: null
+        sync_rate: -1
+        year: null
+      enabled: true
+      name: rate-limiting
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  - https_redirect_status_code: 426
+    methods:
+    - GET
+    - POST
+    name: novel-route
+    path_handling: v0
+    paths:
+    - /api/novel/
+    plugins:
+    - config:
+        allow:
+        - vip
+        - admin
+        always_use_authenticated_groups: false
+        deny: null
+        hide_groups_header: false
+      enabled: true
+      name: acl
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        allow: []
+        deny: []
+      enabled: true
+      name: bot-detection
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        custom_fields_by_lua: null
+        path: /var/log/kong/novel.log
+        reopen: true
+      enabled: true
+      name: file-log
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        anonymous: null
+        claims_to_verify: null
+        cookie_names:
+        - access_token
+        header_names:
+        - authorization
+        key_claim_name: iss
+        maximum_expiration: 0
+        realm: null
+        run_on_preflight: true
+        secret_is_base64: false
+        uri_param_names:
+        - jwt
+      enabled: true
+      name: jwt
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        cache_control: false
+        cache_ttl: 60
+        content_type:
+        - application/json
+        ignore_uri_case: false
+        memory:
+          dictionary_name: kong_db_cache
+        request_method:
+        - GET
+        response_code:
+        - 200
+        - 201
+        response_headers:
+          X-Cache-Key: true
+          X-Cache-Status: true
+          age: true
+        storage_ttl: null
+        strategy: memory
+        vary_headers: null
+        vary_query_params: null
+      enabled: true
+      name: proxy-cache
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        day: null
+        error_code: 429
+        error_message: API rate limit exceeded
+        fault_tolerant: true
+        header_name: null
+        hide_client_headers: false
+        hour: 1000
+        limit_by: consumer
+        minute: 50
+        month: null
+        path: null
+        policy: local
+        redis:
+          database: 0
+          host: null
+          password: null
+          port: 6379
+          server_name: null
+          ssl: false
+          ssl_verify: false
+          timeout: 2000
+          username: null
+        redis_database: 0
+        redis_host: null
+        redis_password: null
+        redis_port: 6379
+        redis_server_name: null
+        redis_ssl: false
+        redis_ssl_verify: false
+        redis_timeout: 2000
+        redis_username: null
+        second: null
+        sync_rate: -1
+        year: null
+      enabled: true
+      name: rate-limiting
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  - https_redirect_status_code: 426
+    methods:
+    - GET
+    - POST
+    name: user-comment
+    path_handling: v0
+    paths:
+    - /user/comment/
+    plugins:
+    - config:
+        anonymous: null
+        claims_to_verify: null
+        cookie_names: []
+        header_names:
+        - authorization
+        key_claim_name: iss
+        maximum_expiration: 0
+        realm: null
+        run_on_preflight: true
+        secret_is_base64: false
+        uri_param_names:
+        - jwt
+      enabled: true
+      name: jwt
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        day: null
+        error_code: 429
+        error_message: API rate limit exceeded
+        fault_tolerant: true
+        header_name: null
+        hide_client_headers: false
+        hour: null
+        limit_by: consumer
+        minute: 20
+        month: null
+        path: null
+        policy: local
+        redis:
+          database: 0
+          host: null
+          password: null
+          port: 6379
+          server_name: null
+          ssl: false
+          ssl_verify: false
+          timeout: 2000
+          username: null
+        redis_database: 0
+        redis_host: null
+        redis_password: null
+        redis_port: 6379
+        redis_server_name: null
+        redis_ssl: false
+        redis_ssl_verify: false
+        redis_timeout: 2000
+        redis_username: null
+        second: null
+        sync_rate: -1
+        year: null
+      enabled: true
+      name: rate-limiting
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  - https_redirect_status_code: 426
+    methods:
+    - GET
+    - POST
+    name: user-favorite
+    path_handling: v0
+    paths:
+    - /user/favorite/
+    plugins:
+    - config:
+        anonymous: null
+        claims_to_verify: null
+        cookie_names: []
+        header_names:
+        - authorization
+        key_claim_name: iss
+        maximum_expiration: 0
+        realm: null
+        run_on_preflight: true
+        secret_is_base64: false
+        uri_param_names:
+        - jwt
+      enabled: true
+      name: jwt
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        day: null
+        error_code: 429
+        error_message: API rate limit exceeded
+        fault_tolerant: true
+        header_name: null
+        hide_client_headers: false
+        hour: null
+        limit_by: consumer
+        minute: 20
+        month: null
+        path: null
+        policy: local
+        redis:
+          database: 0
+          host: null
+          password: null
+          port: 6379
+          server_name: null
+          ssl: false
+          ssl_verify: false
+          timeout: 2000
+          username: null
+        redis_database: 0
+        redis_host: null
+        redis_password: null
+        redis_port: 6379
+        redis_server_name: null
+        redis_ssl: false
+        redis_ssl_verify: false
+        redis_timeout: 2000
+        redis_username: null
+        second: null
+        sync_rate: -1
+        year: null
+      enabled: true
+      name: rate-limiting
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  - https_redirect_status_code: 426
+    methods:
+    - GET
+    - POST
+    name: user-like
+    path_handling: v0
+    paths:
+    - /user/like/
+    plugins:
+    - config:
+        anonymous: null
+        claims_to_verify: null
+        cookie_names: []
+        header_names:
+        - authorization
+        key_claim_name: iss
+        maximum_expiration: 0
+        realm: null
+        run_on_preflight: true
+        secret_is_base64: false
+        uri_param_names:
+        - jwt
+      enabled: true
+      name: jwt
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        day: null
+        error_code: 429
+        error_message: API rate limit exceeded
+        fault_tolerant: true
+        header_name: null
+        hide_client_headers: false
+        hour: null
+        limit_by: consumer
+        minute: 20
+        month: null
+        path: null
+        policy: local
+        redis:
+          database: 0
+          host: null
+          password: null
+          port: 6379
+          server_name: null
+          ssl: false
+          ssl_verify: false
+          timeout: 2000
+          username: null
+        redis_database: 0
+        redis_host: null
+        redis_password: null
+        redis_port: 6379
+        redis_server_name: null
+        redis_ssl: false
+        redis_ssl_verify: false
+        redis_timeout: 2000
+        redis_username: null
+        second: null
+        sync_rate: -1
+        year: null
+      enabled: true
+      name: rate-limiting
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  - https_redirect_status_code: 426
+    methods:
+    - GET
+    name: user-profile
+    path_handling: v0
+    paths:
+    - /profile/
+    plugins:
+    - config:
+        anonymous: null
+        claims_to_verify: null
+        cookie_names: []
+        header_names:
+        - authorization
+        key_claim_name: iss
+        maximum_expiration: 0
+        realm: null
+        run_on_preflight: true
+        secret_is_base64: false
+        uri_param_names:
+        - jwt
+      enabled: true
+      name: jwt
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        day: null
+        error_code: 429
+        error_message: API rate limit exceeded
+        fault_tolerant: true
+        header_name: null
+        hide_client_headers: false
+        hour: null
+        limit_by: consumer
+        minute: 20
+        month: null
+        path: null
+        policy: local
+        redis:
+          database: 0
+          host: null
+          password: null
+          port: 6379
+          server_name: null
+          ssl: false
+          ssl_verify: false
+          timeout: 2000
+          username: null
+        redis_database: 0
+        redis_host: null
+        redis_password: null
+        redis_port: 6379
+        redis_server_name: null
+        redis_ssl: false
+        redis_ssl_verify: false
+        redis_timeout: 2000
+        redis_username: null
+        second: null
+        sync_rate: -1
+        year: null
+      enabled: true
+      name: rate-limiting
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  - https_redirect_status_code: 426
+    methods:
+    - PUT
+    - PATCH
+    name: user-profile-update
+    path_handling: v0
+    paths:
+    - /profile/update
+    plugins:
+    - config:
+        anonymous: null
+        claims_to_verify: null
+        cookie_names: []
+        header_names:
+        - authorization
+        key_claim_name: iss
+        maximum_expiration: 0
+        realm: null
+        run_on_preflight: true
+        secret_is_base64: false
+        uri_param_names:
+        - jwt
+      enabled: true
+      name: jwt
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    - config:
+        day: null
+        error_code: 429
+        error_message: API rate limit exceeded
+        fault_tolerant: true
+        header_name: null
+        hide_client_headers: false
+        hour: null
+        limit_by: consumer
+        minute: 10
+        month: null
+        path: null
+        policy: local
+        redis:
+          database: 0
+          host: null
+          password: null
+          port: 6379
+          server_name: null
+          ssl: false
+          ssl_verify: false
+          timeout: 2000
+          username: null
+        redis_database: 0
+        redis_host: null
+        redis_password: null
+        redis_port: 6379
+        redis_server_name: null
+        redis_ssl: false
+        redis_ssl_verify: false
+        redis_timeout: 2000
+        redis_username: null
+        second: null
+        sync_rate: -1
+        year: null
+      enabled: true
+      name: rate-limiting
+      protocols:
+      - grpc
+      - grpcs
+      - http
+      - https
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: false
+  write_timeout: 60000
+- connect_timeout: 60000
+  enabled: true
+  host: comic-web_upstream
+  name: comic-web-backend-service-2
+  port: 8080
+  protocol: http
+  read_timeout: 60000
+  retries: 5
+  routes:
+  - https_redirect_status_code: 426
+    name: comic-web-django-backend-routes-2
+    path_handling: v0
+    paths:
+    - /
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: true
+  write_timeout: 60000
+- connect_timeout: 60000
+  enabled: true
+  host: comic-web_upstream
+  name: comic-web-backend-service-3
+  port: 8080
+  protocol: http
+  read_timeout: 60000
+  retries: 5
+  routes:
+  - https_redirect_status_code: 426
+    name: comic-web-django-backend-routes-3
+    path_handling: v0
+    paths:
+    - /
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: true
+  write_timeout: 60000
+upstreams:
+- algorithm: consistent-hashing
+  hash_fallback: none
+  hash_on: header
+  hash_on_cookie_path: /
+  hash_on_header: X-Session-ID
+  healthchecks:
+    active:
+      concurrency: 10
+      healthy:
+        http_statuses:
+        - 200
+        interval: 10
+        successes: 2
+      http_path: /health
+      https_verify_certificate: true
+      timeout: 1
+      type: http
+      unhealthy:
+        http_failures: 3
+        http_statuses:
+        - 429
+        - 500
+        - 502
+        - 503
+        - 504
+        interval: 10
+        tcp_failures: 3
+        timeouts: 1
+    passive:
+      healthy:
+        http_statuses:
+        - 200
+        - 201
+        - 202
+        - 203
+        - 204
+        - 205
+        - 206
+        - 207
+        - 208
+        - 226
+        - 300
+        - 301
+        - 302
+        - 303
+        - 304
+        - 305
+        - 306
+        - 307
+        - 308
+        successes: 0
+      type: http
+      unhealthy:
+        http_failures: 0
+        http_statuses:
+        - 429
+        - 500
+        - 503
+        tcp_failures: 0
+        timeouts: 0
+    threshold: 0
+  name: comic-web_upstream
+  slots: 10000
+  targets:
+  - target: django-backend-1:8080
+    weight: 100
+  - target: django-backend-2:8080
+    weight: 100
+  - target: django-backend-3:8080
+    weight: 100
+  use_srv_name: false

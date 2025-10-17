@@ -1,5 +1,6 @@
 x-kong-config: &kong-config
-  KONG_DATABASE: postgres
+  KONG_DATABASE: off
+  KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
   KONG_PG_HOST: kong-db
   KONG_PG_USER: ${KONG_PG_USER}
   KONG_PG_PASSWORD_FILE: /run/secrets/kong_postgres_password
@@ -18,68 +19,16 @@ x-kong-config: &kong-config
   KONG_SSL_CERT: /etc/kong/ssl/kong.crt
   KONG_SSL_CERT_KEY: /etc/kong/ssl/kong.key
 
-# Configuration for kong-migrations (no SSL)
-x-kong-migration-config: &kong-migration-config
-  KONG_DATABASE: postgres
-  KONG_PG_HOST: kong-db
-  KONG_PG_USER: ${KONG_PG_USER}
-  KONG_PG_PASSWORD_FILE: /run/secrets/kong_postgres_password
-  KONG_PG_DATABASE: ${KONG_PG_DATABASE}
-  KONG_LOG_LEVEL: debug
 
 networks:
   kong-net:
     driver: bridge
 
 services:
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: ${KONG_PG_USER}
-      POSTGRES_DB: ${KONG_PG_DATABASE}
-      POSTGRES_PASSWORD_FILE: /run/secrets/kong_postgres_password
-    secrets:
-      - kong_postgres_password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${KONG_PG_USER} -d ${KONG_PG_DATABASE}"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
-    networks:
-      kong-net:
-        aliases:
-          - kong-db
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
-
-  kong-migrations:
-    image: kong:3.8
-    command: kong migrations bootstrap && kong migrations up
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      <<: *kong-migration-config  # Use migration-specific config (no SSL)
-    secrets:
-      - kong_postgres_password
-    networks:
-      - kong-net
-    restart: on-failure
-
   kong:
     build:
       context: ./kong
       dockerfile: Dockerfile
-    depends_on:
-      db:
-        condition: service_healthy
-      kong-migrations:
-        condition: service_completed_successfully
     environment:
       <<: *kong-config
     ports:
@@ -97,6 +46,7 @@ services:
     volumes:
       - ./kong-logs:/var/log/kong
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./kong.yml:/usr/local/kong/declarative/kong.yml:ro
       - ./kong/ssl:/etc/kong/ssl:ro
     logging:
       driver: json-file
