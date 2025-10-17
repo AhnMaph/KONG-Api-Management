@@ -1,123 +1,131 @@
-# decK: Declarative configuration for Kong
+# A Serverless API Management System
 
-decK provides declarative configuration and drift detection for Kong.
+This project implements a comprehensive API management system using Kong API Gateway (version 3.6) with PostgreSQL as the backend, managed using Docker Compose. The system is designed to provide a robust, scalable, and secure way to manage APIs in a serverless environment.
 
-[![Build Status](https://github.com/kong/deck/workflows/CI%20Test/badge.svg)](https://github.com/kong/deck/actions?query=branch%3Amain+event%3Apush)
-[![codecov](https://codecov.io/gh/Kong/deck/branch/main/graph/badge.svg?token=m9WNK9rFEG)](https://codecov.io/gh/Kong/deck)
-[![Go Report Card](https://goreportcard.com/badge/github.com/kong/deck)](https://goreportcard.com/report/github.com/kong/deck)
-
-[![asciicast](https://asciinema.org/a/238318.svg)](https://asciinema.org/a/238318)
-
-## Table of Content
-
-- [**Features**](#features)
-- [**Compatibility**](#compatibility)
-- [**Installation**](#installation)
-- [**Documentation**](#documentation)
-- [**Stale issue and pull request policy**](#stale-issue-and-pull-request-policy)
-- [**License**](#license)
+## Team Members
+- **Doan Duc Anh** 
+- **Pham Thanh An**
+- **Nguyen Van Hung** 
 
 ## Features
+- **Kong API Gateway**: Uses the official `kong:3.6` image for API management
+- **PostgreSQL Backend**: Stores Kong configurations in a PostgreSQL database
+- **Admin API Configuration**: Dynamic configuration of services and routes
+- **Makefile Targets**: Includes `up`, `down`, `reset`, `logs`, `health`, `status`, and `clean` for streamlined operations
+- **Docker Compose**: Manages `db`, `kong-migrations`, and `kong` services
+- **Logging Service**: Integrated logging system for monitoring and debugging
+- **Prometheus Monitoring**: Metrics collection and monitoring capabilities
+- **Alert Rules**: Configurable alerting system for system events
 
-- **Export**  
-  Existing Kong configuration to a YAML configuration file
-  This can be used to backup Kong's configuration.
-- **Import**  
-  Kong's database can be populated using the exported or a hand written config
-  file.
-- **Diff and sync capabilities**  
-  decK can diff the configuration in the config file and
-  the configuration in Kong's DB and then sync it as well.
-  This can be used to detect config drifts or manual interventions.
-- **Reverse sync**  
-  decK supports a sync the other way as well, meaning if an
-  entity is created in Kong and doesn't add it to the config file,
-  decK will detect the change.
-- **Validation**  
-  decK can validate a YAML file that you backup or modify to catch errors
-  early on.
-- **Reset**  
-  This can be used to drops all entities in Kong's DB.
-- **Parallel operations**  
-  All Admin API calls to Kong are executed in parallel using multiple
-  threads to speed up the sync process.
-- **Authentication with Kong**
-  Custom HTTP headers can be injected in requests to Kong's Admin API
-  for authentication/authorization purposes.
-- **Manage Kong's config with multiple config file**  
-  Split your Kong's configuration into multiple logical files based on a shared
-  set of tags amongst entities.
-- **Designed to automate configuration management**  
-  decK is designed to be part of your CI pipeline and can be used to not only
-  push configuration to Kong but also detect drifts in configuration.
+## Prerequisites
+- **Docker**: Version 20.10 or later
+- **Docker Compose**: Version 2.0 or later
+- **jq**: For parsing JSON in the `health` target
+- **Internet Access**: To pull required Docker images
 
-## Compatibility
-
-decK is compatible with Kong Gateway >= 1.x and Kong Enterprise >= 0.35.
-
-## Installation
-
-### macOS
-
-If you are on macOS, install decK using brew:
-
-```shell
-$ brew tap kong/deck
-$ brew install deck
+## Project Structure
+```
+project-root/
+├── .env                  # Environment variables
+├── POSTGRES_PASSWORD     # PostgreSQL password
+├── docker-compose.yml    # Docker Compose configuration
+├── Makefile             # Automation tasks
+├── kong/               # Kong configuration files
+├── kong-logs/         # Kong gateway logs
+├── kong-service-logs/ # Service-specific logs
+├── logging-service/   # Logging service implementation
+├── comic-web/        # Web application
+├── config/           # Configuration files
+├── json/            # JSON configuration files
+├── prometheus.yml   # Prometheus configuration
+├── alert.rules.yml  # Alert rules configuration
+└── logstash.conf    # Logstash configuration
 ```
 
-### Linux
+## Quick Start
+1. Clone the repository
+2. Create `.env` file with required environment variables (see example below)
+3. Run `make up` to start all services
+4. Access Kong Admin API at `http://localhost:8001`
+5. Access Kong Manager at `http://localhost:8002`
 
-If you are Linux, you can either use the Debian or RPM archive from
-the GitHub [release page](https://github.com/kong/deck/releases)
-or install by downloading the binary:
+### Example .env Configuration
+```env
+# Kong Configuration
+KONG_DOCKER_TAG=kong:3.8
+KONG_PG_USER=kong
+KONG_PG_DATABASE=kong
+KONG_PROXY_PORT=8000
+KONG_ADMIN_PORT=8001
+KONG_ADMIN_GUI_PORT=8002
+KONG_SSL_PROXY_PORT=8443
+KONG_SSL_ADMIN_PORT=8444
 
-```shell
-$ curl -sL https://github.com/kong/deck/releases/download/v1.52.0/deck_1.52.0_linux_amd64.tar.gz -o deck.tar.gz
-$ tar -xf deck.tar.gz -C /tmp
-$ sudo cp /tmp/deck /usr/local/bin/
+# PostgreSQL Configuration
+POSTGRES_USER=kong
+POSTGRES_DB=kong
+
+# Logging Service Configuration
+LOGGING_SERVICE_PORT=8081
+LOGGING_SERVICE_ADMIN_PORT=8003
+
+# Prometheus Configuration
+PROMETHEUS_PORT=9090
+
+# Grafana Configuration
+GRAFANA_PORT=3000
+GRAFANA_ADMIN_PASSWORD=admin
+
+# Elasticsearch Configuration
+ELASTICSEARCH_PORT=9200
+ELASTICSEARCH_MEMORY="-Xms512m -Xmx512m"
+
+# Kibana Configuration
+KIBANA_PORT=5601
+
+# Logstash Configuration
+LOGSTASH_PORT=5044
+
+# Backend Services Configuration
+BACKEND_1_PORT=8000
+BACKEND_2_PORT=8001
+BACKEND_3_PORT=8002
+
+# Time Zone
+TZ=Asia/Ho_Chi_Minh
+```
+More simple .env
+```env
+KONG_DOCKER_TAG=kong:3.8
+KONG_PG_HOST=kong-db
+KONG_PG_USER=kong
+KONG_PG_DATABASE=kong
+KONG_PROXY_PORT=8000
+KONG_ADMIN_PORT=8001
+KONG_ADMIN_GUI_PORT=8002
+KONG_SSL_PROXY_PORT=8443
+KONG_SSL_ADMIN_PORT=8444
 ```
 
-### Windows
+For detailed setup instructions and configuration, refer to:
+- [Kong Documentation](https://docs.konghq.com/gateway/3.6.x/)
+- [Docker Compose Documentation](https://docs.docker.com/compose/)
+- [Prometheus Documentation](https://prometheus.io/docs/)
 
-If you are on Windows, you can download the binary from the GitHub
-[release page](https://github.com/kong/deck/releases) or via PowerShell:
+## Makefile Commands
+- `make up`: Start all services
+- `make down`: Stop all services
+- `make reset`: Reset and restart services
+- `make logs`: View Kong logs
+- `make health`: Check Kong health
+- `make status`: Check service status
+- `make clean`: Clean up Kong container
 
-```shell
-$ curl -sL https://github.com/kong/deck/releases/download/v1.52.0/deck_1.52.0_windows_amd64.tar.gz -o deck.tar.gz
-$ tar -xzvf deck.tar.gz
-```
-
-### Docker image
-
-Docker image is hosted on [Docker Hub](https://hub.docker.com/r/kong/deck).
-
-You can get the image with the command:
-
-```
-docker pull kong/deck
-```
-
-## Documentation
-
-You can use `--help` flag once you've decK installed on your system
-to get help in the terminal itself.
-
-The project's documentation is hosted at
-[https://docs.konghq.com/deck/overview](https://docs.konghq.com/deck/overview).
-
-## Changelog
-
-Changelog can be found in the [CHANGELOG.md](CHANGELOG.md) file.
-
-## Stale issue and pull request policy
-
-To ensure our backlog is organized and up to date, we will close issues and
-pull requests that have been inactive awaiting a community response for over 2
-weeks. If you wish to reopen a closed issue or PR to continue work, please
-leave a comment asking a team member to do so.
+## Contact
+For any questions or support, please contact:
+- Doan Duc Anh: [iluvstudyforever@gmail.com]
+- Nguyen Thanh An: [phamthanhanrule123@gmail.com]
+- Nguyen Van Hung: [miscitaofvh@gmail.com]
 
 ## License
-
-decK is licensed with Apache License Version 2.0.
-Please read the [LICENSE](LICENSE) file for more details.
+Apache License 2.0
